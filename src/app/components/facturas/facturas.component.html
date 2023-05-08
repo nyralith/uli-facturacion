@@ -1,0 +1,67 @@
+<mat-card>
+    <mat-card-content>
+        <div class="container">
+            <form class="example-form" [formGroup]="afiliadoForm">
+                <mat-form-field class="example-full-width">
+                    <mat-label>N° de afiliado benecifiario</mat-label>
+                    <input matInput placeholder="12344556" formControlName="numAfiliado">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Nombre de afiliado</mat-label>
+                    <input matInput placeholder="Paul Phoenix" formControlName="nombreAfiliado">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="addOrder()">
+                    <mat-icon>add_box</mat-icon>
+                    Crear orden
+                </button>
+            </form>
+        </div>
+
+    </mat-card-content>
+
+
+
+    <div >
+
+        <div *ngIf="orderData.length != 0">
+            <div *ngFor="let orders of orderData">
+                <p>hola pes</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <form class="example-form" [formGroup]="analisisForm">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Código</mat-label>
+                    <input matInput value="Sushi" formControlName="codigo">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Analisis</mat-label>
+                    <input matInput value="Sushi" formControlName="analisis">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Importe</mat-label>
+                    <input matInput value="Sushi" formControlName="importe">
+                </mat-form-field>
+
+
+                <span mat-raised-button color="primary" (click)="addNewAnalisis()">
+                    <mat-icon>check_circle</mat-icon>
+                </span>
+
+                <span mat-raised-button color="primary" (click)="deleteAnalisis()">
+                    <mat-icon>delete</mat-icon>
+                </span>
+            </form>
+
+
+        </div>
+    </div>
+
+
+
+</mat-card>
