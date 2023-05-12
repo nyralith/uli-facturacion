@@ -12,10 +12,19 @@
                     <input matInput placeholder="Paul Phoenix" formControlName="nombreAfiliado">
                 </mat-form-field>
 
+                <mat-form-field appearance="fill">
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
                 <button mat-raised-button color="primary" (click)="addOrder()">
                     <mat-icon>add_box</mat-icon>
                     Crear orden
                 </button>
+
             </form>
         </div>
 
@@ -23,7 +32,7 @@
 
 
 
-    <div >
+    <div>
 
         <div *ngIf="orderData.length != 0">
             <div *ngFor="let orders of orderData">

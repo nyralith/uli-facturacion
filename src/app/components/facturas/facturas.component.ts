@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
@@ -14,12 +15,13 @@ export class FacturasComponent {
 
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
-    nombreAfiliado: new FormControl('', Validators.required)
+    nombreAfiliado: new FormControl('', Validators.required),
+    fechaFactura: new FormControl('', Validators.required)
   })
 
   analisisForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,) {
     this.analisisForm = this.fb.group({
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
@@ -29,6 +31,12 @@ export class FacturasComponent {
 
   }
 
+
+  filterDate() {
+    const fechaFactura: any = this.afiliadoForm.controls['fechaFactura']?.value?.toString()
+    console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-US'))
+  }
+
   addOrder() {
     console.log(this.analisisForm.controls['codigo'].value)
   }
@@ -36,6 +44,7 @@ export class FacturasComponent {
   addNewAnalisis() {
     this.orderData.push('hola chiketitapepena')
   }
+
 
   deleteAnalisis() {
 
