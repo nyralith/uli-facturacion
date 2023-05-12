@@ -1,76 +1,132 @@
-<mat-card>
-    <mat-card-content>
-        <div class="container">
-            <form class="example-form" [formGroup]="afiliadoForm">
-                <mat-form-field class="example-full-width">
-                    <mat-label>N° de afiliado benecifiario</mat-label>
-                    <input matInput placeholder="12344556" formControlName="numAfiliado">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <mat-label>Nombre de afiliado</mat-label>
-                    <input matInput placeholder="Paul Phoenix" formControlName="nombreAfiliado">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-
-                <button mat-raised-button color="primary" (click)="addOrder()">
-                    <mat-icon>add_box</mat-icon>
-                    Crear orden
-                </button>
-
-            </form>
-        </div>
-
-    </mat-card-content>
-
-
-
-    <div>
-
-        <div *ngIf="orderData.length != 0">
-            <div *ngFor="let orders of orderData">
-                <p>hola pes</p>
+<div class="container-card" style="margin-top: 30px;">
+    <mat-card>
+        <mat-card-title style="background-color: rgb(25, 43, 83);">
+            <h1 style="margin-left: 10px; color: white; display: flex; justify-content: center;">Facturacion Laboratorio
+                Rada</h1>
+        </mat-card-title>
+        <mat-card-content style="margin-top: 10px;">
+            <div class="container">
+                <form class="example-form" [formGroup]="afiliadoForm">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>N° de afiliado benecifiario</mat-label>
+                        <input matInput placeholder="123456" formControlName="numAfiliado">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Nombre de afiliado</mat-label>
+                        <input matInput placeholder="Paul Phoenix" formControlName="nombreAfiliado">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Elegir una fecha</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <button style="margin-left: 10px; background-color: rgb(33, 56, 107); color: white;"
+                        mat-raised-button (click)="addOrder()">
+                        <mat-icon>add_box</mat-icon>
+                        Crear orden
+                    </button>
+                </form>
             </div>
-        </div>
 
-        <div class="container">
-            <form class="example-form" [formGroup]="analisisForm">
-                <mat-form-field class="example-full-width">
-                    <mat-label>Código</mat-label>
-                    <input matInput value="Sushi" formControlName="codigo">
-                </mat-form-field>
+            <div *ngIf="showCreateOrder">
+                <div class="container">
+                    <form class="example-form" [formGroup]="analisisForm">
 
-                <mat-form-field class="example-full-width">
-                    <mat-label>Analisis</mat-label>
-                    <input matInput value="Sushi" formControlName="analisis">
-                </mat-form-field>
-
-                <mat-form-field class="example-full-width">
-                    <mat-label>Importe</mat-label>
-                    <input matInput value="Sushi" formControlName="importe">
-                </mat-form-field>
-
-
-                <span mat-raised-button color="primary" (click)="addNewAnalisis()">
-                    <mat-icon>check_circle</mat-icon>
-                </span>
-
-                <span mat-raised-button color="primary" (click)="deleteAnalisis()">
-                    <mat-icon>delete</mat-icon>
-                </span>
-            </form>
-
-
-        </div>
-    </div>
+                        <!-- <mat-form-field class="example-full-width">
+                            <mat-label>Código</mat-label>
+                            <input matInput formControlName="codigo">
+                        </mat-form-field> -->
 
 
 
-</mat-card>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Código</mat-label>
+                            <input type="text" placeholder="Seleccionar Código" aria-label="código" matInput
+                                formControlName="codigo" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let codigo of analisis" [value]="codigo">
+                                    {{codigo}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+
+
+
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Analisis</mat-label>
+                            <input type="text" placeholder="Seleccionar Código" aria-label="código" matInput
+                                formControlName="analisis" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let data of analisis" [value]="data">
+                                    {{data}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+           
+
+
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Importe</mat-label>
+                            <input matInput formControlName="importe">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>NBU</mat-label>
+                            <input matInput formControlName="nbu">
+                        </mat-form-field>
+
+                        <button style="margin-left: 7px;" mat-mini-fab color="primary"
+                            style="background-color: rgb(33, 56, 107);"
+                            aria-label="Example icon button with a delete icon" (click)="addNewAnalisis()">
+                            <mat-icon>check_circle</mat-icon>
+                        </button>
+
+                        <button style="margin-left: 7px;" mat-mini-fab color="warn"
+                            aria-label="Example icon button with a delete icon" (click)="deleteAnalisis()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </form>
+                </div>
+
+                <div *ngIf="dataSource.data.length !== 0">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+                        <!-- Codigo Column -->
+                        <ng-container matColumnDef="codigo">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="background-color: rgb(25, 43, 83); color: white;"> Código </th>
+                            <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                        </ng-container>
+                        <!-- Analisis Column -->
+                        <ng-container matColumnDef="analisis">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="background-color: rgb(25, 43, 83); color: white;"> Analisis </th>
+                            <td mat-cell *matCellDef="let element"> {{element.analisis}} </td>
+                        </ng-container>
+                        <!-- Importe Column -->
+                        <ng-container matColumnDef="importe">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="background-color: rgb(25, 43, 83); color: white;"> Importe</th>
+                            <td mat-cell *matCellDef="let element"> ${{element.importe}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div style="display:flex; justify-content: end; margin:10px;">
+                        <button mat-raised-button color="primary" (click)="sendOrder()"
+                            style="background-color: rgb(33, 56, 107); color: white;">
+                            <mat-icon>add_box</mat-icon>
+                            Agregar Orden
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

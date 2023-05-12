@@ -1,7 +1,13 @@
 import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 
+
+const ELEMENT_DATA: any = [
+  // { codigo: 654321, analisis: 'Hemograma', importe: 213.60,},
+  // { codigo: 123456, analisis: 'Plaquetas, Recuento de', importe: 71.20,}
+];
 
 @Component({
   selector: 'app-facturas',
@@ -9,9 +15,31 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
   styleUrls: ['./facturas.component.scss']
 })
 export class FacturasComponent {
-
   editOrder: any;
-  orderData: any = []
+  showCreateOrder: boolean = false;
+  displayedColumns: string[] = ['codigo', 'analisis', 'importe'];
+  dataSource = new MatTableDataSource<any>
+
+
+
+  codigos: any = [
+    '475',
+
+  ]
+
+  analisis: any = [
+    'HEMOGRAMA',
+    'PLAQUETAS, RECUENTO DE',
+    'GLUCEMIA o GLUCOSURIA (C/U)',
+    'UREA, sérica',
+    'CREATININA - sérica o urinaria',
+    'IONOGRAMA - sérico',
+    'ACTO BIOQUÍMICO DE INTERNACION -',
+    'ACIDO BASE , Estado Acido Base (EAB)',
+    'COAGULOGRAMA',
+    'LACTICO, ACIDO ENZIMATICO.'
+  ]
+
 
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
@@ -26,11 +54,9 @@ export class FacturasComponent {
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
       importe: ['', Validators.required],
+      nbu: ['',Validators.required]
     })
-
-
   }
-
 
   filterDate() {
     const fechaFactura: any = this.afiliadoForm.controls['fechaFactura']?.value?.toString()
@@ -38,16 +64,42 @@ export class FacturasComponent {
   }
 
   addOrder() {
-    console.log(this.analisisForm.controls['codigo'].value)
+    if (this.afiliadoForm.controls['numAfiliado']?.value?.length !== 0 && this.afiliadoForm.controls['nombreAfiliado']?.value?.length !== 0
+      && this.afiliadoForm.controls['fechaFactura']?.value?.length !== 0) {
+      this.showCreateOrder = true
+      console.log(this.showCreateOrder)
+    }
+    else {
+      return
+    }
   }
 
   addNewAnalisis() {
-    this.orderData.push('hola chiketitapepena')
+    let codigo = this.analisisForm.controls['codigo'].value;
+    let analisis = this.analisisForm.controls['analisis'].value;
+    let importe = this.analisisForm.controls['importe'].value;
+    let nbu = this.analisisForm.controls['nbu'].value;
+
+    let orden = {
+      codigo: codigo,
+      analisis: analisis,
+      importe: importe*nbu,
+    }
+    this.dataSource.data.push(orden)
+
+    console.log(ELEMENT_DATA)
+    console.log('pepina yo te amo')
+    this.dataSource._updateChangeSubscription()
   }
 
-
   deleteAnalisis() {
+    console.log('holapes')
+  }
 
+  sendOrder() {
+    console.log('enviando orden')
+    this.dataSource.data = []
+    this.dataSource._updateChangeSubscription()
   }
 
 }
