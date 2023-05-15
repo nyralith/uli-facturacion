@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 
+import { data } from '../data/analisis';
 
-const ELEMENT_DATA: any = [
-  // { codigo: 654321, analisis: 'Hemograma', importe: 213.60,},
-  // { codigo: 123456, analisis: 'Plaquetas, Recuento de', importe: 71.20,}
-];
+
+
+
 
 @Component({
   selector: 'app-facturas',
@@ -24,9 +24,16 @@ export class FacturasComponent {
 
   codigos: any = [
     '475',
-
+    '746',
+    '412',
+    '902',
+    '192',
+    '546',
+    '1001',
+    '5',
+    '592',
+    '171',
   ]
-
   analisis: any = [
     'HEMOGRAMA',
     'PLAQUETAS, RECUENTO DE',
@@ -39,7 +46,6 @@ export class FacturasComponent {
     'COAGULOGRAMA',
     'LACTICO, ACIDO ENZIMATICO.'
   ]
-
 
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
@@ -54,8 +60,12 @@ export class FacturasComponent {
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
       importe: ['', Validators.required],
-      nbu: ['',Validators.required]
+      nbu: ['', Validators.required]
     })
+  }
+
+  ngOnInit() {
+    console.log(data[0])
   }
 
   filterDate() {
@@ -83,12 +93,9 @@ export class FacturasComponent {
     let orden = {
       codigo: codigo,
       analisis: analisis,
-      importe: importe*nbu,
+      importe: importe * nbu,
     }
     this.dataSource.data.push(orden)
-
-    console.log(ELEMENT_DATA)
-    console.log('pepina yo te amo')
     this.dataSource._updateChangeSubscription()
   }
 
