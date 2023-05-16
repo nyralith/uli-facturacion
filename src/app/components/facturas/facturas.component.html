@@ -52,8 +52,8 @@
                             <input type="text" placeholder="Seleccionar Analisis" aria-label="analisis" matInput
                                 formControlName="analisis" [matAutocomplete]="analisis1">
                             <mat-autocomplete #analisis1="matAutocomplete">
-                                <mat-option *ngFor="let analisis of data" [value]="analisis.analisis">
-                                    {{analisis.analisis}}
+                                <mat-option *ngFor="let analisis of filteredAnalisis | async " [value]="analisis">
+                                    {{analisis}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>

@@ -22,7 +22,7 @@ export class FacturasComponent {
   dataSource = new MatTableDataSource<any>
   data = data
   filteredCodes!: Observable<string[]>;
-
+  filteredAnalisis!: Observable<string[]>;
   codigosData: any;
   analisisData: any;
 
@@ -51,17 +51,31 @@ export class FacturasComponent {
     this.data.forEach(codigo => {
       this.codigosData.push(codigo.codigo)
     })
-
+    this.analisisData = []
+    this.data.forEach(data => {
+      this.analisisData.push(data.analisis)
+    })
+console.log(this.analisisData)
     this.filteredCodes = this.analisisForm.controls['codigo'].valueChanges.pipe(
       startWith(''),
       map(value => this._filterCodigo(value || '')),
     );
-  }
+    this.filteredAnalisis = this.analisisForm.controls['analisis'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterAnalisis(value || '')),
+    )
+  };
 
 
   private _filterCodigo(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.codigosData.filter((option: any) => option.includes(filterValue));
+  }
+
+
+  private _filterAnalisis(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.analisisData.filter((option: any) => option.includes(filterValue));
   }
 
   filterDate() {
