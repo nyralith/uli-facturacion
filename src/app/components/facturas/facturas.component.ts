@@ -19,7 +19,7 @@ export class FacturasComponent {
   showCreateOrder: boolean = false;
   displayedColumns: string[] = ['codigo', 'analisis', 'importe'];
   dataSource = new MatTableDataSource<any>
-
+  data = data
 
 
   codigos: any = [
@@ -66,6 +66,7 @@ export class FacturasComponent {
 
   ngOnInit() {
     console.log(data[0])
+    console.log(data[0].codigo)
   }
 
   filterDate() {
@@ -77,11 +78,25 @@ export class FacturasComponent {
     if (this.afiliadoForm.controls['numAfiliado']?.value?.length !== 0 && this.afiliadoForm.controls['nombreAfiliado']?.value?.length !== 0
       && this.afiliadoForm.controls['fechaFactura']?.value?.length !== 0) {
       this.showCreateOrder = true
-      console.log(this.showCreateOrder)
     }
     else {
       return
     }
+  }
+
+
+  autocompleteCodigo() {
+    let code = this.analisisForm.controls['codigo'].value;
+    let objetoBuscado = data.find(data => data.codigo === code)
+    if(objetoBuscado) {
+      this.analisisForm.controls['analisis'].patchValue(objetoBuscado.analisis);
+      this.analisisForm.controls['importe'].patchValue(objetoBuscado.importe);
+      console.log('entrando en if')
+    }
+    else{
+      console.log('entrando al else')
+    }
+    console.log(objetoBuscado)
   }
 
   addNewAnalisis() {
@@ -108,5 +123,4 @@ export class FacturasComponent {
     this.dataSource.data = []
     this.dataSource._updateChangeSubscription()
   }
-
 }

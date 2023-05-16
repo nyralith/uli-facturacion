@@ -37,10 +37,11 @@
                         <mat-form-field class="example-full-width">
                             <mat-label>Código</mat-label>
                             <input type="text" placeholder="Seleccionar Código" aria-label="código" matInput
-                                formControlName="codigo" [matAutocomplete]="codigo">
+                                formControlName="codigo" [matAutocomplete]="codigo" (change)="autocompleteCodigo()"
+                                (focus)="autocompleteCodigo()">
                             <mat-autocomplete #codigo="matAutocomplete">
-                                <mat-option *ngFor="let codigo of codigos" [value]="codigo">
-                                    {{codigo}}
+                                <mat-option *ngFor="let codigo of data" [value]="codigo.codigo">
+                                    {{codigo.codigo}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -51,8 +52,8 @@
                             <input type="text" placeholder="Seleccionar Analisis" aria-label="analisis" matInput
                                 formControlName="analisis" [matAutocomplete]="analisis1">
                             <mat-autocomplete #analisis1="matAutocomplete">
-                                <mat-option *ngFor="let data of analisis" [value]="data">
-                                    {{data}}
+                                <mat-option *ngFor="let analisis of data" [value]="analisis.analisis">
+                                    {{analisis.analisis}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
@@ -115,7 +116,6 @@
                     </div>
                 </div>
             </div>
-
         </mat-card-content>
     </mat-card>
 </div>
