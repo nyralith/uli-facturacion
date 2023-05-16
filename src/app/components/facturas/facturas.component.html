@@ -34,40 +34,29 @@
                 <div class="container">
                     <form class="example-form" [formGroup]="analisisForm">
 
-                        <!-- <mat-form-field class="example-full-width">
-                            <mat-label>Código</mat-label>
-                            <input matInput formControlName="codigo">
-                        </mat-form-field> -->
-
-
-
                         <mat-form-field class="example-full-width">
                             <mat-label>Código</mat-label>
                             <input type="text" placeholder="Seleccionar Código" aria-label="código" matInput
-                                formControlName="codigo" [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let codigo of analisis" [value]="codigo">
+                                formControlName="codigo" [matAutocomplete]="codigo">
+                            <mat-autocomplete #codigo="matAutocomplete">
+                                <mat-option *ngFor="let codigo of codigos" [value]="codigo">
                                     {{codigo}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
 
 
-
-
-
                         <mat-form-field class="example-full-width">
                             <mat-label>Analisis</mat-label>
-                            <input type="text" placeholder="Seleccionar Código" aria-label="código" matInput
-                                formControlName="analisis" [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete">
+                            <input type="text" placeholder="Seleccionar Analisis" aria-label="analisis" matInput
+                                formControlName="analisis" [matAutocomplete]="analisis1">
+                            <mat-autocomplete #analisis1="matAutocomplete">
                                 <mat-option *ngFor="let data of analisis" [value]="data">
                                     {{data}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
 
-           
 
 
 
