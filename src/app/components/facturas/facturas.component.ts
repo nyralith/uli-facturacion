@@ -2,8 +2,9 @@ import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { map, startWith } from 'rxjs/operators';
 import { data } from '../data/analisis';
+import { Observable } from 'rxjs';
 
 
 
@@ -20,32 +21,13 @@ export class FacturasComponent {
   displayedColumns: string[] = ['codigo', 'analisis', 'importe'];
   dataSource = new MatTableDataSource<any>
   data = data
+  filteredCodes!: Observable<string[]>;
+
+  codigosData: any;
+  analisisData: any;
 
 
-  codigos: any = [
-    '475',
-    '746',
-    '412',
-    '902',
-    '192',
-    '546',
-    '1001',
-    '5',
-    '592',
-    '171',
-  ]
-  analisis: any = [
-    'HEMOGRAMA',
-    'PLAQUETAS, RECUENTO DE',
-    'GLUCEMIA o GLUCOSURIA (C/U)',
-    'UREA, sérica',
-    'CREATININA - sérica o urinaria',
-    'IONOGRAMA - sérico',
-    'ACTO BIOQUÍMICO DE INTERNACION -',
-    'ACIDO BASE , Estado Acido Base (EAB)',
-    'COAGULOGRAMA',
-    'LACTICO, ACIDO ENZIMATICO.'
-  ]
+
 
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
@@ -65,8 +47,21 @@ export class FacturasComponent {
   }
 
   ngOnInit() {
-    console.log(data[0])
-    console.log(data[0].codigo)
+    this.codigosData = []
+    this.data.forEach(codigo => {
+      this.codigosData.push(codigo.codigo)
+    })
+
+    this.filteredCodes = this.analisisForm.controls['codigo'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterCodigo(value || '')),
+    );
+  }
+
+
+  private _filterCodigo(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.codigosData.filter((option: any) => option.includes(filterValue));
   }
 
   filterDate() {
@@ -88,12 +83,12 @@ export class FacturasComponent {
   autocompleteCodigo() {
     let code = this.analisisForm.controls['codigo'].value;
     let objetoBuscado = data.find(data => data.codigo === code)
-    if(objetoBuscado) {
+    if (objetoBuscado) {
       this.analisisForm.controls['analisis'].patchValue(objetoBuscado.analisis);
       this.analisisForm.controls['importe'].patchValue(objetoBuscado.importe);
       console.log('entrando en if')
     }
-    else{
+    else {
       console.log('entrando al else')
     }
     console.log(objetoBuscado)
@@ -115,7 +110,7 @@ export class FacturasComponent {
   }
 
   deleteAnalisis() {
-    console.log('holapes')
+    console.log('holapes deleteadas')
   }
 
   sendOrder() {
@@ -123,4 +118,5 @@ export class FacturasComponent {
     this.dataSource.data = []
     this.dataSource._updateChangeSubscription()
   }
+
 }

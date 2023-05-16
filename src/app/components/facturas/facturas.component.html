@@ -40,8 +40,8 @@
                                 formControlName="codigo" [matAutocomplete]="codigo" (change)="autocompleteCodigo()"
                                 (focus)="autocompleteCodigo()">
                             <mat-autocomplete #codigo="matAutocomplete">
-                                <mat-option *ngFor="let codigo of data" [value]="codigo.codigo">
-                                    {{codigo.codigo}}
+                                <mat-option *ngFor="let codigo of filteredCodes | async" [value]="codigo">
+                                    {{codigo}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
