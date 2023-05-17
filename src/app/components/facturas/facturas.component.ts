@@ -119,10 +119,9 @@ export class FacturasComponent {
   }
 
   addNewAnalisis() {
-    
-    let codigo = this.analisisForm.controls['codigo'].value;
+    let codigo = parseInt(this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
-    let importe = this.analisisForm.controls['importe'].value;
+    let importe = parseInt(this.analisisForm.controls['importe'].value);
     let nbu = this.analisisForm.controls['nbu'].value;
 
     let orden = {
@@ -130,8 +129,14 @@ export class FacturasComponent {
       analisis: analisis,
       importe: importe * nbu,
     }
-    this.dataSource.data.push(orden)
-    this.dataSource._updateChangeSubscription()
+    // this.analisisForm.reset();
+
+    this.analisisForm.controls['codigo'].patchValue('')
+    this.analisisForm.controls['analisis'].patchValue('');
+    this.analisisForm.controls['importe'].patchValue('');
+
+    this.dataSource.data.push(orden);
+    this.dataSource._updateChangeSubscription();
   }
 
   deleteAnalisis() {
@@ -140,6 +145,13 @@ export class FacturasComponent {
 
   sendOrder() {
     console.log('enviando orden')
+    console.log(this.dataSource.data)
+
+    // hay que enviar el datasource.data antes de que se lo vacíe
+    
+    
+    // 
+
     this.dataSource.data = []
     this.dataSource._updateChangeSubscription()
   }
