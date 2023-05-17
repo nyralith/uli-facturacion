@@ -22,8 +22,8 @@
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    <button style="margin-left: 10px; background-color: rgb(33, 56, 107); color: white;"
-                        mat-raised-button (click)="addOrder()">
+                    <button class="disabledButton" style="margin-left: 10px;" color="primary" mat-raised-button
+                        [disabled]="!afiliadoForm.valid" (click)="addOrder()">
                         <mat-icon>add_box</mat-icon>
                         Crear orden
                     </button>
@@ -50,16 +50,14 @@
                         <mat-form-field class="example-full-width">
                             <mat-label>Analisis</mat-label>
                             <input type="text" placeholder="Seleccionar Analisis" aria-label="analisis" matInput
-                                formControlName="analisis" [matAutocomplete]="analisis1">
+                                formControlName="analisis" [matAutocomplete]="analisis1" (change)="autocompleteCodigo()"
+                                (focus)="autocompleteCodigo()">
                             <mat-autocomplete #analisis1="matAutocomplete">
                                 <mat-option *ngFor="let analisis of filteredAnalisis | async " [value]="analisis">
-                                    {{analisis}}
+                                    {{analisis | uppercase}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-
-
-
 
                         <mat-form-field class="example-full-width">
                             <mat-label>Importe</mat-label>
@@ -73,7 +71,8 @@
 
                         <button style="margin-left: 7px;" mat-mini-fab color="primary"
                             style="background-color: rgb(33, 56, 107);"
-                            aria-label="Example icon button with a delete icon" (click)="addNewAnalisis()">
+                            aria-label="Example icon button with a delete icon" [disabled]="!analisisForm.valid"
+                            (click)="addNewAnalisis()">
                             <mat-icon>check_circle</mat-icon>
                         </button>
 

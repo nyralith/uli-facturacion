@@ -1,21 +1,17 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
 }
-.example-full-width{
+
+.example-full-width {
     margin: 4px;
 }
 
-.container-card{
+.container-card {
     margin: auto;
     max-width: 1000px !important;
 }
 
-
-.test:hover{
-    background-color: red !important;
+.disabledButton {
+    background-color: rgb(33, 56, 107) !important;
 }
-
-// h1{
-//     font-family: 'Raleway', sans-serif;
-// }

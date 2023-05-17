@@ -53,13 +53,15 @@ export class FacturasComponent {
     })
     this.analisisData = []
     this.data.forEach(data => {
-      this.analisisData.push(data.analisis)
+      this.analisisData.push(data.analisis.toLowerCase())
     })
-console.log(this.analisisData)
+
     this.filteredCodes = this.analisisForm.controls['codigo'].valueChanges.pipe(
       startWith(''),
       map(value => this._filterCodigo(value || '')),
     );
+
+
     this.filteredAnalisis = this.analisisForm.controls['analisis'].valueChanges.pipe(
       startWith(''),
       map(value => this._filterAnalisis(value || '')),
@@ -96,19 +98,28 @@ console.log(this.analisisData)
 
   autocompleteCodigo() {
     let code = this.analisisForm.controls['codigo'].value;
-    let objetoBuscado = data.find(data => data.codigo === code)
-    if (objetoBuscado) {
-      this.analisisForm.controls['analisis'].patchValue(objetoBuscado.analisis);
-      this.analisisForm.controls['importe'].patchValue(objetoBuscado.importe);
+    let analisis = this.analisisForm.controls['analisis'].value;
+
+    let codigoBuscado = data.find(data => data.codigo === code)
+    let analisisBuscado = data.find(data => data.analisis.toLowerCase() === analisis)
+
+    if (codigoBuscado) {
+      this.analisisForm.controls['analisis'].patchValue(codigoBuscado.analisis.toLowerCase());
+      this.analisisForm.controls['importe'].patchValue(codigoBuscado.importe);
       console.log('entrando en if')
     }
-    else {
-      console.log('entrando al else')
+    else if (analisisBuscado) {
+      console.log('entrando analisis buscado')
+      this.analisisForm.controls['codigo'].patchValue(analisisBuscado.codigo);
+      this.analisisForm.controls['importe'].patchValue(analisisBuscado.importe);
     }
-    console.log(objetoBuscado)
+    else {
+      return
+    }
   }
 
   addNewAnalisis() {
+    
     let codigo = this.analisisForm.controls['codigo'].value;
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = this.analisisForm.controls['importe'].value;
