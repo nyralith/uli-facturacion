@@ -22,6 +22,10 @@
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>NBU</mat-label>
+                        <input matInput formControlName="nbu">
+                    </mat-form-field>
                     <button class="disabledButton" style="margin-left: 10px;" color="primary" mat-raised-button
                         [disabled]="!afiliadoForm.valid" (click)="addOrder()">
                         <mat-icon>add_box</mat-icon>
@@ -64,10 +68,6 @@
                             <input matInput formControlName="importe">
                         </mat-form-field>
 
-                        <mat-form-field class="example-full-width">
-                            <mat-label>NBU</mat-label>
-                            <input matInput formControlName="nbu">
-                        </mat-form-field>
 
                         <button style="margin-left: 7px;" mat-mini-fab color="primary"
                             style="background-color: rgb(33, 56, 107);"

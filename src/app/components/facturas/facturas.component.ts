@@ -32,7 +32,8 @@ export class FacturasComponent {
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
     nombreAfiliado: new FormControl('', Validators.required),
-    fechaFactura: new FormControl('', Validators.required)
+    fechaFactura: new FormControl('', Validators.required),
+    nbu: new FormControl('', Validators.required),
   })
 
   analisisForm: FormGroup;
@@ -42,7 +43,6 @@ export class FacturasComponent {
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
       importe: ['', Validators.required],
-      nbu: ['', Validators.required]
     })
   }
 
@@ -122,14 +122,14 @@ export class FacturasComponent {
     let codigo = parseInt(this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = parseInt(this.analisisForm.controls['importe'].value);
-    let nbu = this.analisisForm.controls['nbu'].value;
+    let nbu = this.afiliadoForm.controls['nbu'].value;
 
     let orden = {
       codigo: codigo,
       analisis: analisis,
       importe: importe * nbu,
     }
-    // this.analisisForm.reset();
+    // this.nbisForm.reset();
 
     this.analisisForm.controls['codigo'].patchValue('')
     this.analisisForm.controls['analisis'].patchValue('');
