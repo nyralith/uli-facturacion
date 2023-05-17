@@ -13,12 +13,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ResumenComponent } from './components/resumen/resumen.component';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FacturasComponent
+    FacturasComponent,
+    ResumenComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule,
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
