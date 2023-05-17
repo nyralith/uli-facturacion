@@ -26,6 +26,8 @@ export class FacturasComponent {
   codigosData: any;
   analisisData: any;
 
+  ordersToSend: any = [];
+
 
 
 
@@ -121,21 +123,22 @@ export class FacturasComponent {
   addNewAnalisis() {
     let codigo = parseInt(this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
-    let importe = parseInt(this.analisisForm.controls['importe'].value);
-    let nbu = this.afiliadoForm.controls['nbu'].value;
+    let importe = parseFloat(this.analisisForm.controls['importe'].value);
+    let nbu = parseFloat(this.afiliadoForm.controls['nbu'].value!);
 
     let orden = {
       codigo: codigo,
       analisis: analisis,
-      importe: importe * nbu,
+      importe: Math.round(importe * nbu!),
     }
-    // this.nbisForm.reset();
 
     this.analisisForm.controls['codigo'].patchValue('')
     this.analisisForm.controls['analisis'].patchValue('');
     this.analisisForm.controls['importe'].patchValue('');
-
     this.dataSource.data.push(orden);
+
+    this.ordersToSend.push(orden)
+
     this.dataSource._updateChangeSubscription();
   }
 
@@ -144,16 +147,21 @@ export class FacturasComponent {
   }
 
   sendOrder() {
-    console.log('enviando orden')
-    console.log(this.dataSource.data)
 
-    // hay que enviar el datasource.data antes de que se lo vacíe
-    
-    
-    // 
+    const dataToSend = {
+      numAfiliad: this.afiliadoForm.controls['numAfiliado'].value,
+      afiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
+      fecha: this.afiliadoForm.controls['fechaFactura'].value,
+      ordenes: this.ordersToSend
+    }
 
+    console.log(dataToSend, 'datatosend')
+
+
+    this.ordersToSend = []
     this.dataSource.data = []
     this.dataSource._updateChangeSubscription()
   }
+
 
 }
