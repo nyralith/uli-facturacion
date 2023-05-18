@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-resumen',
@@ -6,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./resumen.component.scss']
 })
 export class ResumenComponent {
-
+   displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe' ];
+  dataSource = new MatTableDataSource<any>;
 }
+
