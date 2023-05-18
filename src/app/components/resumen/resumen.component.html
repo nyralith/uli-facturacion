@@ -10,34 +10,51 @@
 
 <div *ngIf="dataSource.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
   <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
-  
+
 </div>
 
 <div *ngIf="dataSource.length != 0" style="margin-top: 10px;">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
-    <ng-container matColumnDef="numAfi">
-      <th class="background-header" mat-header-cell *matHeaderCellDef>
-        N° de afiliado benecifiario </th>
-      <td mat-cell *matCellDef="let element"> {{element.numAfi}} </td>
-    </ng-container>
-    <ng-container matColumnDef="nombAfi">
-      <th class="background-header" mat-header-cell *matHeaderCellDef> Nombre del afiliado </th>
-      <td mat-cell *matCellDef="let element"> {{element.nombAfi}} </td>
-    </ng-container>
-    <ng-container matColumnDef="codigo">
-      <th class="background-header" mat-header-cell *matHeaderCellDef> Codigo </th>
-      <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
-    </ng-container>
+  <form>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
+      <ng-container matColumnDef="numAfi">
+        <th class="background-header" mat-header-cell *matHeaderCellDef>
+          N° de afiliado benecifiario </th>
+        <td mat-cell *matCellDef="let element"> {{element.numAfi}} </td>
+      </ng-container>
+      <ng-container matColumnDef="nombAfi">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Nombre del afiliado </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombAfi}} </td>
+      </ng-container>
+      <ng-container matColumnDef="codigo">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Codigo </th>
+        <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="analisisRealizados">
-      <th class="background-header" mat-header-cell *matHeaderCellDef> Analisis realizados </th>
-      <td mat-cell *matCellDef="let element"> {{element.analisisRealizados}} </td>
-    </ng-container>
-    <ng-container matColumnDef="importe">
-      <th class="background-header" mat-header-cell *matHeaderCellDef> Importe </th>
-      <td mat-cell *matCellDef="let element"> {{element.importe}} </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <ng-container matColumnDef="analisisRealizados">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Analisis realizados </th>
+        <td mat-cell *matCellDef="let element"> {{element.analisisRealizados}} </td>
+      </ng-container>
+      <ng-container matColumnDef="importe">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Importe </th>
+        <td mat-cell *matCellDef="let element"> {{element.importe}} </td>
+      </ng-container>
+      <ng-container matColumnDef="fecha">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th class="background-header" mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let element"><button mat-mini-fab color="warn"
+            aria-label="Example icon button with a delete icon" (click)="(acciones)">
+            <mat-icon>delete</mat-icon> </button>
+         <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" (click)="(acciones)" style="margin-left: 5px;">
+            <mat-icon>edit</mat-icon> </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </form>
 </div>

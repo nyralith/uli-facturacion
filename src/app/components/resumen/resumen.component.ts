@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 
 const ELEMENT_DATA: any = [
   {
-  numAfi: 1,
-  nombAfi: "ROBERT",
-  codigo: 123456,
-  analisisRealizados: "ANAL",
-  importe: 900,
-}
+    numAfi: 1,
+    nombAfi: "ROBERT",
+    codigo: 123456,
+    analisisRealizados: "ANAL",
+    fecha: 1722023 ,
+    importe: 900,
+  }
 ]
 
 
@@ -18,10 +19,9 @@ const ELEMENT_DATA: any = [
   styleUrls: ['./resumen.component.scss']
 })
 export class ResumenComponent {
-  displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe'];
+  displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe', 'fecha','acciones'];
   // dataSource = new MatTableDataSource<any>;
   dataSource = ELEMENT_DATA;
-
-
+  acciones : any;
 }
 
