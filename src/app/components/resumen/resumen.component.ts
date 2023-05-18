@@ -1,5 +1,15 @@
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+
+
+const ELEMENT_DATA: any = [
+  {
+  numAfi: 1,
+  nombAfi: "ROBERT",
+  codigo: 123456,
+  analisisRealizados: "ANAL",
+  importe: 900,
+}
+]
 
 
 @Component({
@@ -8,7 +18,10 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./resumen.component.scss']
 })
 export class ResumenComponent {
-   displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe' ];
-  dataSource = new MatTableDataSource<any>;
+  displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe'];
+  // dataSource = new MatTableDataSource<any>;
+  dataSource = ELEMENT_DATA;
+
+
 }
 

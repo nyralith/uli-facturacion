@@ -12,9 +12,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ResumenComponent } from './components/resumen/resumen.component';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
