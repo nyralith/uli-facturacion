@@ -11,7 +11,11 @@ const ELEMENT_DATA: any = [
     importe: 900,
   }
 ]
-
+const saveComponents: any = [{
+  getDate: Number,
+  getMonth: Number,
+  getFullYear: Number,
+}]
 
 @Component({
   selector: 'app-resumen',
@@ -23,5 +27,15 @@ export class ResumenComponent {
   // dataSource = new MatTableDataSource<any>;
   dataSource = ELEMENT_DATA;
   acciones : any;
+downloadPdf: any;
+getDate: any;
+
 }
 
+getDate (){
+
+}
+
+downloadPdf(){
+
+}

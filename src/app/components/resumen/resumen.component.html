@@ -1,3 +1,4 @@
+
 <div class="input">
   <mat-form-field appearance="fill">
     <mat-label>Elegir una fecha</mat-label>
@@ -6,8 +7,8 @@
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-<button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;">Traer datos de la fecha</button>
-<button mat-raised-button color="primary">Descargar pdf</button>
+<button  mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;" (click)="getDate">Traer datos de la fecha</button>
+<button  mat-raised-button color="primary"(click)="downloadPdf">Descargar pdf</button>
 </div>
 <div *ngIf="dataSource.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
   <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
