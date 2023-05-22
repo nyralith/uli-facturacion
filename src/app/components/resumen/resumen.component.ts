@@ -3,6 +3,12 @@ import { Component } from '@angular/core';
 
 
 
+const saveComponents: any = [{
+  getDate: Number,
+  getMonth: Number,
+  getFullYear: Number,
+}]
+
 @Component({
   selector: 'app-resumen',
   templateUrl: './resumen.component.html',
@@ -26,7 +32,6 @@ export class ResumenComponent {
   acciones: any;
 
 
-
   ngOnInit() {
 
   }
@@ -36,7 +41,13 @@ export class ResumenComponent {
   //   formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU')
   //   console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU'))
   // }
+  getDate() {
+
+  }
+
+  downloadPdf() {
+
+  }
 
 }
-
 
