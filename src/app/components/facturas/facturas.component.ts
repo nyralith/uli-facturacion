@@ -81,8 +81,9 @@ export class FacturasComponent {
     return this.analisisData.filter((option: any) => option.includes(filterValue));
   }
 
-  filterDate() {
-    const fechaFactura: any = this.afiliadoForm.controls['fechaFactura']?.value?.toString()
+  filterDate(date: any) {
+    const fechaFactura: any = date.toString()
+    formatDate(fechaFactura, 'dd/MM/yyyy', 'en-US')
     console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-US'))
   }
 
