@@ -33,7 +33,10 @@ export class ResumenComponent {
 
 
   ngOnInit() {
-
+    console.log('hola chike')
+// el +1 en getmonth porque los meses comienzan en 0
+    console.log(this.ELEMENT_DATA[0].fecha.getDate(), this.ELEMENT_DATA[0].fecha.getMonth()+1, this.ELEMENT_DATA[0].fecha.getFullYear() )
+    console.log(new Date().getMonth())
   }
 
   // filterDate(date: any) {
@@ -42,11 +45,11 @@ export class ResumenComponent {
   //   console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU'))
   // }
   getDate() {
-
+    console.log('getDate')
   }
 
   downloadPdf() {
-
+    console.log('downloadPdf')
   }
 
 }
