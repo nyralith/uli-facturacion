@@ -15,6 +15,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ResumenComponent } from './components/resumen/resumen.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 
 
@@ -39,6 +43,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatNativeDateModule,
     MatAutocompleteModule,
     MatTabsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

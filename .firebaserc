@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "labofacturacion-9ef32": {
+      "hosting": {
+        "uli-facturas": [
+          "labofacturacion-9ef32"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "labofacturacion-9ef32"
+  }
+}
