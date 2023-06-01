@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { map, startWith } from 'rxjs/operators';
 import { data } from '../data/analisis';
 import { Observable } from 'rxjs';
-
+import { provideFirebaseApp } from '@angular/fire/app';
 
 
 
