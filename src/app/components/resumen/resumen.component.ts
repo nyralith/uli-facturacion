@@ -22,16 +22,24 @@ export class ResumenComponent {
   }
   ELEMENT_DATA: any = [
     {
-      numAfi: 1,
-      nombAfi: "ROBERT",
-      codigo: 123456,
-      analisisRealizados: "ANAL",
-      fecha: new Date(),
-      importe: 900,
+      nameAfiliado: 'DEVORA MELTROZO',
+      cantOrdenes: '6',
+      monto: '90.000',
+    },
+    {
+      nameAfiliado: 'Digger Nick',
+      cantOrdenes: '3',
+      monto: '67.000',
+    },
+    {
+      nameAfiliado: 'Knee Gurr',
+      cantOrdenes: '32',
+      monto: '11.596',
     }
-  ];
+  ]
 
-  displayedColumns: string[] = ['numAfi', 'nombAfi', 'codigo', 'analisisRealizados', 'importe', 'fecha', 'acciones'];
+
+  displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto','acciones'];
   // dataSource = new MatTableDataSource<any>;
   dataSource = this.ELEMENT_DATA;
   acciones: any;
@@ -56,6 +64,8 @@ export class ResumenComponent {
 
     console.log(this.filterDate(this.dateForm.controls['fecha'].value).toString())
     console.log(this.filteredData);
+
+    this.ELEMENT_DATA = this.filteredData
   }
 
   downloadPdf() {

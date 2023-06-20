@@ -20,31 +20,19 @@
 <div *ngIf="dataSource.length != 0" style="margin-top: 10px;">
   <form>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
-      <ng-container matColumnDef="numAfi">
-        <th class="background-header" mat-header-cell *matHeaderCellDef>
-          N° de afiliado benecifiario </th>
-        <td mat-cell *matCellDef="let element"> {{element.numAfi}} </td>
-      </ng-container>
-      <ng-container matColumnDef="nombAfi">
+
+      <ng-container matColumnDef="nameAfiliado">
         <th class="background-header" mat-header-cell *matHeaderCellDef> Nombre del afiliado </th>
-        <td mat-cell *matCellDef="let element"> {{element.nombAfi}} </td>
-      </ng-container>
-      <ng-container matColumnDef="codigo">
-        <th class="background-header" mat-header-cell *matHeaderCellDef> Codigo </th>
-        <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.nameAfiliado}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="analisisRealizados">
+      <ng-container matColumnDef="cantOrdenes">
         <th class="background-header" mat-header-cell *matHeaderCellDef> Analisis realizados </th>
-        <td mat-cell *matCellDef="let element"> {{element.analisisRealizados}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.cantOrdenes}} </td>
       </ng-container>
-      <ng-container matColumnDef="importe">
+      <ng-container matColumnDef="monto">
         <th class="background-header" mat-header-cell *matHeaderCellDef> Importe </th>
-        <td mat-cell *matCellDef="let element"> {{element.importe}} </td>
-      </ng-container>
-      <ng-container matColumnDef="fecha">
-        <th class="background-header" mat-header-cell *matHeaderCellDef> Fecha </th>
-        <td mat-cell *matCellDef="let element"> {{element.fecha | date: 'dd/MM/yyyy'}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
       </ng-container>
 
       <ng-container matColumnDef="acciones">
