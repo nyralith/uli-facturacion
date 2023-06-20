@@ -1,6 +1,6 @@
 <div class="container-card" style="margin-top: 30px;">
     <mat-card>
-    
+
         <mat-card-content style="margin-top: 10px;">
             <div class="container">
                 <form class="example-form" [formGroup]="afiliadoForm">
@@ -72,11 +72,6 @@
                             (click)="addNewAnalisis()">
                             <mat-icon>check_circle</mat-icon>
                         </button>
-
-                        <button style="margin-left: 7px;" mat-mini-fab color="warn"
-                            aria-label="Example icon button with a delete icon" (click)="deleteAnalisis()">
-                            <mat-icon>delete</mat-icon>
-                        </button>
                     </form>
                 </div>
 
@@ -100,6 +95,17 @@
                                 style="background-color: rgb(25, 43, 83); color: white;"> Importe</th>
                             <td mat-cell *matCellDef="let element"> ${{element.importe}} </td>
                         </ng-container>
+                        <ng-container matColumnDef="eliminar">
+                            <th mat-header-cell *matHeaderCellDef
+                                style="background-color: rgb(25, 43, 83); color: white;"> Eliminar</th>
+                            <td mat-cell *matCellDef="let element"><button
+                                    style="margin-left: 7px;" mat-mini-fab color="warn"
+                                    aria-label="Example icon button with a delete icon" (click)="deleteAnalisis()">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </td>
+
+                        </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
@@ -111,6 +117,7 @@
                         </button>
                     </div>
                 </div>
+
             </div>
         </mat-card-content>
     </mat-card>

@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class FacturasComponent {
   editOrder: any;
   showCreateOrder: boolean = false;
-  displayedColumns: string[] = ['codigo', 'analisis', 'importe'];
+  displayedColumns: string[] = ['codigo', 'analisis', 'importe', 'eliminar'];
   dataSource = new MatTableDataSource<any>
   data = data
   filteredCodes!: Observable<string[]>;
