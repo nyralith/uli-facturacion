@@ -11,12 +11,20 @@ export class Service {
     constructor(private db: AngularFirestore) {
     }
 
-    getAllUsers() {
+
+
+
+    getAllData() {
         return new Promise<any>((resolve) => {
-            this.db.collection('User').valueChanges({ idField: 'id' }).subscribe(users => resolve(users));
+            this.db.collection('facturas').valueChanges({ idField: 'id' }).subscribe(users => resolve(users));
         })
     }
+    async getFilteredData(filtro: any) {
+        return new Promise<any>((resolve) => {
+            this.db.collection('facturas', ref => ref.where('fecha', '==', filtro)).valueChanges().subscribe(resolve);
+        })
 
+    }
     async addNewUser(_newId: any, afiliado: any) {
         await this.db.collection("facturas").doc(_newId).set({ afiliado });
     }

@@ -121,14 +121,6 @@ export class FacturasComponent {
       return
     }
   }
-
-
-  getRandomId() {
-    const min = 0; // Valor mínimo de 10 dígitos (10^9)
-    const max = 9999999; // Valor máximo de 10 dígitos (10^10 - 1)
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
   addNewAnalisis() {
     let codigo = parseInt(this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
@@ -155,12 +147,9 @@ export class FacturasComponent {
   async sendOrder() {
     let importeTotal = 0;
     let randomid = uuidv4();
-
     for (let i = 0; i < this.dataSource.data.length; i++) {
       importeTotal += this.dataSource.data[i].importe
     }
-
-
     const dataToSend = {
       numAfiliado: this.afiliadoForm.controls['numAfiliado'].value,
       nameAfiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
