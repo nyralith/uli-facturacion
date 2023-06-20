@@ -21,13 +21,15 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { Service } from './components/service/data.service';
+import { ResumenFacturacionPacienteComponent } from './components/resumen-facturacion-paciente/resumen-facturacion-paciente.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FacturasComponent,
-    ResumenComponent
+    ResumenComponent,
+    ResumenFacturacionPacienteComponent
   ],
   imports: [
     BrowserModule,
