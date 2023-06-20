@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Service } from '../service/data.service';
 import * as html2pdf from 'html2pdf.js'
-import { timestamp } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -39,31 +39,24 @@ export class ResumenComponent {
 
   async ngOnInit() {
     this.getAllData()
-    // el +1 en getmonth porque los meses comienzan en 0
-    // console.log(this.ELEMENT_DATA[0].fecha.getDate(), this.ELEMENT_DATA[0].fecha.getMonth() + 1, this.ELEMENT_DATA[0].fecha.getFullYear())
-    // console.log(new Date().getMonth())
   }
 
-
+  filterDate(date: any) {
+    const fechaFactura: any = date;
+    return formatDate(fechaFactura, 'MM/yyyy', 'en-US')
+  }
 
   async getAllData() {
     this.allData = await this.service.getAllData();
-    let date = this.allData[0].afiliado.fecha
-    console.log(new Date(date.seconds * 1000))
+    console.log(this.allData[0])
   }
 
   async getFilteredData() {
-    this.filteredData = await this.service.getFilteredData(this.dateForm.controls['fecha'].value)
-    console.log(this.filteredData);
-    // console.log(this.dateForm.controls['fecha'].value)
-    // this.service.getFilteredData(this.dateForm.controls['fecha'].value);
-  }
+    this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
 
-  // filterDate(date: any) {
-  //   const fechaFactura: any = date.toString()
-  //   formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU')
-  //   console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU'))
-  // }
+    console.log(this.filterDate(this.dateForm.controls['fecha'].value).toString())
+    console.log(this.filteredData);
+  }
 
   downloadPdf() {
     let element = document.getElementById('table');

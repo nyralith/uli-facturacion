@@ -5,7 +5,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { map, startWith } from 'rxjs/operators';
 import { data } from '../data/analisis';
 import { Observable } from 'rxjs';
-import { provideFirebaseApp } from '@angular/fire/app';
 import { Service } from '../service/data.service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -85,8 +84,7 @@ export class FacturasComponent {
 
   filterDate(date: any) {
     const fechaFactura: any = date.toString()
-    formatDate(fechaFactura, 'dd/MM/yyyy', 'en-US')
-    console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-US'))
+    return formatDate(fechaFactura, 'MM/yyyy', 'en-US')
   }
 
   addOrder() {
@@ -153,18 +151,17 @@ export class FacturasComponent {
     const dataToSend = {
       numAfiliado: this.afiliadoForm.controls['numAfiliado'].value,
       nameAfiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
-      fecha: this.afiliadoForm.controls['fechaFactura'].value,
+      fecha: this.filterDate(this.afiliadoForm.controls['fechaFactura'].value),
       ordenes: this.dataSource.data,
       importe: importeTotal
     };
-
-
     await this.service.addNewUser(randomid, dataToSend)
     console.log(dataToSend, 'datatosend');
 
     this.ordersToSend = [];
     this.dataSource.data = [];
     this.dataSource._updateChangeSubscription();
+    console.log(dataToSend)
   }
 
 

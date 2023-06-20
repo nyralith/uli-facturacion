@@ -21,7 +21,7 @@ export class Service {
     }
     async getFilteredData(filtro: any) {
         return new Promise<any>((resolve) => {
-            this.db.collection('facturas', ref => ref.where('fecha', '==', filtro)).valueChanges().subscribe(resolve);
+            this.db.collection('facturas', ref => ref.where('afiliado.fecha', '==', filtro)).valueChanges().subscribe(resolve);
         })
 
     }
