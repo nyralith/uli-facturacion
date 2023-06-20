@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
 import { Service } from '../service/data.service';
 import * as html2pdf from 'html2pdf.js'
-
-
-const saveComponents: any = [{
-  getDate: Number,
-  getMonth: Number,
-  getFullYear: Number,
-}]
-
-
+import { timestamp } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -18,7 +11,12 @@ const saveComponents: any = [{
   styleUrls: ['./resumen.component.scss']
 })
 export class ResumenComponent {
-  allData: any
+  allData: any;
+  filteredData: any;
+
+  dateForm = new FormGroup({
+    fecha: new FormControl()
+  })
   constructor(private service: Service) {
 
   }
@@ -40,17 +38,25 @@ export class ResumenComponent {
 
 
   async ngOnInit() {
-    console.log('hola chike')
+    this.getAllData()
     // el +1 en getmonth porque los meses comienzan en 0
-    console.log(this.ELEMENT_DATA[0].fecha.getDate(), this.ELEMENT_DATA[0].fecha.getMonth() + 1, this.ELEMENT_DATA[0].fecha.getFullYear())
-    console.log(new Date().getMonth())
+    // console.log(this.ELEMENT_DATA[0].fecha.getDate(), this.ELEMENT_DATA[0].fecha.getMonth() + 1, this.ELEMENT_DATA[0].fecha.getFullYear())
+    // console.log(new Date().getMonth())
   }
 
 
 
-  async getUsers() {
-    this.allData = await this.service.getAllUsers();
-    console.log(this.allData);
+  async getAllData() {
+    this.allData = await this.service.getAllData();
+    let date = this.allData[0].afiliado.fecha
+    console.log(new Date(date.seconds * 1000))
+  }
+
+  async getFilteredData() {
+    this.filteredData = await this.service.getFilteredData(this.dateForm.controls['fecha'].value)
+    console.log(this.filteredData);
+    // console.log(this.dateForm.controls['fecha'].value)
+    // this.service.getFilteredData(this.dateForm.controls['fecha'].value);
   }
 
   // filterDate(date: any) {
@@ -58,22 +64,19 @@ export class ResumenComponent {
   //   formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU')
   //   console.log(formatDate(fechaFactura, 'dd/MM/yyyy', 'en-EU'))
   // }
-  getDate() {
-    console.log('getDate')
-  }
 
-  downloadPdf(){
-    var element = document.getElementById('table');
-var opt = {
-  margin:       1,
-  filename:     'output.pdf',
-  image:        { type: 'jpeg', quality: 0.98 },
-  html2canvas:  { scale: 2 },
-  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-};
- 
-// New Promise-based usage:
-html2pdf().from(element).set(opt).save();
+  downloadPdf() {
+    let element = document.getElementById('table');
+    let opt = {
+      margin: 1,
+      filename: 'resumen.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // New Promise-based usage:
+    html2pdf().from(element).set(opt).save();
   }
 
 
