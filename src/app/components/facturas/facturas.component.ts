@@ -6,6 +6,8 @@ import { map, startWith } from 'rxjs/operators';
 import { data } from '../data/analisis';
 import { Observable } from 'rxjs';
 import { provideFirebaseApp } from '@angular/fire/app';
+import { Service } from '../service/data.service';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -39,7 +41,7 @@ export class FacturasComponent {
 
   analisisForm: FormGroup;
 
-  constructor(private fb: FormBuilder,) {
+  constructor(private fb: FormBuilder, private service: Service) {
     this.analisisForm = this.fb.group({
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
@@ -120,6 +122,13 @@ export class FacturasComponent {
     }
   }
 
+
+  getRandomId() {
+    const min = 0; // Valor mínimo de 10 dígitos (10^9)
+    const max = 9999999; // Valor máximo de 10 dígitos (10^10 - 1)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   addNewAnalisis() {
     let codigo = parseInt(this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
@@ -130,7 +139,6 @@ export class FacturasComponent {
       analisis: analisis,
       importe: Math.round(importe * nbu!),
     }
-    // this.nbisForm.reset();
 
     this.analisisForm.controls['codigo'].patchValue('')
     this.analisisForm.controls['analisis'].patchValue('');
@@ -144,19 +152,30 @@ export class FacturasComponent {
     console.log('holapes deleteadas')
   }
 
-  sendOrder() {
-    const dataToSend = {
-      numAfiliad: this.afiliadoForm.controls['numAfiliado'].value,
-      afiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
-      fecha: this.afiliadoForm.controls['fechaFactura'].value,
-      ordenes: this.ordersToSend
+  async sendOrder() {
+    let importeTotal = 0;
+    let randomid = uuidv4();
+
+    for (let i = 0; i < this.dataSource.data.length; i++) {
+      importeTotal += this.dataSource.data[i].importe
     }
 
-    console.log(dataToSend, 'datatosend')
 
-    this.ordersToSend = []
-    this.dataSource.data = []
-    this.dataSource._updateChangeSubscription()
+    const dataToSend = {
+      numAfiliado: this.afiliadoForm.controls['numAfiliado'].value,
+      nameAfiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
+      fecha: this.afiliadoForm.controls['fechaFactura'].value,
+      ordenes: this.dataSource.data,
+      importe: importeTotal
+    };
+
+
+    await this.service.addNewUser(randomid, dataToSend)
+    console.log(dataToSend, 'datatosend');
+
+    this.ordersToSend = [];
+    this.dataSource.data = [];
+    this.dataSource._updateChangeSubscription();
   }
 
 
