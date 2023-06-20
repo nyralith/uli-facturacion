@@ -19,7 +19,8 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-
+import { AngularFireModule } from '@angular/fire/compat';
+import { Service } from './components/service/data.service';
 
 
 @NgModule({
@@ -43,11 +44,12 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     MatNativeDateModule,
     MatAutocompleteModule,
     MatTabsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    AngularFireModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule, Service, AngularFireModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {
