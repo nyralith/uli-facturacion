@@ -5,6 +5,7 @@ import * as html2pdf from 'html2pdf.js'
 import { Service } from '../service/data.service';
 import { MatTableDataSource } from '@angular/material/table';
 
+
 @Component({
   selector: 'app-resumen-facturacion-paciente',
   templateUrl: './resumen-facturacion-paciente.component.html',
@@ -14,13 +15,35 @@ export class ResumenFacturacionPacienteComponent {
   allData: any;
   service: any;
   filteredData: any;
-  ELEMENT_DATA: any;
   dateForm: any;
   dataSource = new MatTableDataSource<any>
-  
-  constructor(private services: Service){
+  displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
+  acciones: any;
 
+
+  constructor(private services: Service) {
+
+  }
+
+  ELEMENT_DATA: any = [
+    {
+      nameAfiliado: 'DEVORA MELTROZO',
+      cantOrdenes: '6',
+      monto: '90.000',
+    },
+    {
+      nameAfiliado: 'Digger Nick',
+      cantOrdenes: '3',
+      monto: '67.000',
+    },
+    {
+      nameAfiliado: 'Knee Gurr',
+      cantOrdenes: '32',
+      monto: '11.596',
     }
+  ]
+
+
   async ngOnInit() {
     this.getAllData()
   }
@@ -33,8 +56,8 @@ export class ResumenFacturacionPacienteComponent {
       fecha: new FormControl()
     })
 
-      
-  
+
+
 
     const fechaFactura: any = date;
     return formatDate(fechaFactura, 'MM/yyyy', 'en-US')
