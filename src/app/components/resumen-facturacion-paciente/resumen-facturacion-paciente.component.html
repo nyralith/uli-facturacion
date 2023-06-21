@@ -1,1 +1,15 @@
+<div class="input">
 
+    <form [formGroup]="dateForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Elegir una fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+    <button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;"
+      (click)="getFilteredData()">Traer datos de la fecha</button>
+    <button mat-raised-button color="primary" (click)="downloadPdf()">Descargar pdf</button>
+  </div>
