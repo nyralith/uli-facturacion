@@ -1,13 +1,13 @@
 <div class="input">
 
-    <form>
+    <form [formGroup]="filterForm">
         <mat-form-field class="example-full-width" style="margin-right: 10px;">
             <mat-label>N° de afiliado benecifiario</mat-label>
-            <input matInput placeholder="123456" formControlName="numAfiliado">
+            <input matInput placeholder="123456" formControlName="nameAfiliado">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Elegir una fecha</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>

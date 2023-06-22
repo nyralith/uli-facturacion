@@ -3,6 +3,7 @@ import { Service } from '../service/data.service';
 import * as html2pdf from 'html2pdf.js'
 import { FormControl, FormGroup } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -20,33 +21,17 @@ export class ResumenComponent {
   constructor(private service: Service) {
 
   }
-  ELEMENT_DATA: any = [
-    {
-      nameAfiliado: 'DEVORA MELTROZO',
-      cantOrdenes: '6',
-      monto: '90.000',
-    },
-    {
-      nameAfiliado: 'Digger Nick',
-      cantOrdenes: '3',
-      monto: '67.000',
-    },
-    {
-      nameAfiliado: 'Knee Gurr',
-      cantOrdenes: '32',
-      monto: '11.596',
-    }
-  ]
+  ELEMENT_DATA: any = []
 
 
-  displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto','acciones'];
+  displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
   // dataSource = new MatTableDataSource<any>;
-  dataSource = this.ELEMENT_DATA;
+  dataSource = new MatTableDataSource<any>
   acciones: any;
 
 
   async ngOnInit() {
-    this.getAllData()
+    // await this.getAllData()
   }
 
   filterDate(date: any) {
@@ -60,12 +45,21 @@ export class ResumenComponent {
   }
 
   async getFilteredData() {
+    this.dataSource.data = []
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
 
-    console.log(this.filterDate(this.dateForm.controls['fecha'].value).toString())
-    console.log(this.filteredData);
+    this.filteredData.forEach(element => {
 
-    this.ELEMENT_DATA = this.filteredData
+    console.log(element, 'element')
+      let objectToSend = {
+        nameAfiliado: element.afiliado.nameAfiliado,
+        cantOrdenes: element.afiliado.ordenes.length,
+        monto: element.afiliado.importe
+      }
+      this.dataSource.data.push(objectToSend)
+    });
+    this.dataSource._updateChangeSubscription();
+    console.log(this.dataSource.data)
   }
 
   downloadPdf() {

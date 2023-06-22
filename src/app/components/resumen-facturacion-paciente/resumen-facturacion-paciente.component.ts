@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as html2pdf from 'html2pdf.js'
 import { Service } from '../service/data.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -20,6 +20,10 @@ export class ResumenFacturacionPacienteComponent {
   displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
   acciones: any;
 
+  filterForm = new FormGroup({
+    nameAfiliado: new FormControl('', Validators.required),
+    fechaFactura: new FormControl('', Validators.required),
+  })
 
   constructor(private services: Service) {
 
@@ -45,26 +49,16 @@ export class ResumenFacturacionPacienteComponent {
 
 
   async ngOnInit() {
-    this.getAllData()
   }
 
+
   filterDate(date: any) {
-    this.allData
-    this.filteredData
-
-    this.dateForm = new FormGroup({
-      fecha: new FormControl()
-    })
-
-
-
-
     const fechaFactura: any = date;
     return formatDate(fechaFactura, 'MM/yyyy', 'en-US')
   }
 
   async getAllData() {
-    this.allData = await this.service.getAllData();
+    this.allData = await this.services.getAllData();
     console.log(this.allData[0])
   }
 
