@@ -25,6 +25,12 @@ export class Service {
         })
 
     }
+
+    async getFilteredFactura(filtro: any, nombreAfiliado: any){
+        return new Promise<any>((resolve) => {
+            this.db.collection('facturas', ref=> ref.where('afiliado.fecha', '==', filtro).where('afiliado.nameAfiliado', '==', nombreAfiliado)).valueChanges().subscribe(resolve)
+        })
+    }
     async addNewUser(_newId: any, afiliado: any) {
         await this.db.collection("facturas").doc(_newId).set({ afiliado });
     }
