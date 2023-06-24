@@ -91,7 +91,7 @@ export class ResumenComponent {
     let element = document.getElementById('table');
     let opt = {
       margin: 1,
-      filename: 'resumen.pdf',
+      filename: `resumen-${(this.mesData).replace(/\s/g,"-")}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }

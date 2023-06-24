@@ -14,11 +14,11 @@
   <button mat-raised-button color="primary" (click)="openDialog()">Descargar pdf</button>
 </div>
 
-<!-- <div *ngIf="ELEMENT_DATA.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
+<div *ngIf="dataSource.data.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
   <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
-</div> -->
+</div>
 
-<div style="margin-top: 10px;">
+<div *ngIf="dataSource.data.length > 0" style="margin-top: 10px;">
   <form>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
 
@@ -59,28 +59,29 @@
 </div>
 
 
-
-<div id="table">
-  <div>
-    <h4 style="text-align: center;  border: 1px solid #353535; margin: 0px;">
-      LABORATORIO RADA FACTURACION SUBSIDIO {{mesData}}
-    </h4>
-    <table style="text-align: left;border-collapse: collapse !important;">
-      <tr>
-        <th class="chikeTh">Pacientes</th>
-        <th class="chikeTh">Cantidad de ordenes</th>
-        <th class="chikeTh">Monto</th>
-      </tr>
-      <tr *ngFor="let data of dataSource.data">
-        <td class="chikeTd">{{data.nameAfiliado}}</td>
-        <td class="chikeTd">{{data.cantOrdenes}}</td>
-        <td class="chikeTd">{{data.monto}}</td>
-      </tr>
-      <tr>
-        <td class="chikeTd">TOTAL</td>
-        <td class="chikeTd">{{totalOrdenesPdf}}</td>
-        <td class="chikeTd">{{totalCost}}</td>
-      </tr>
-    </table>
+<div style="display: none;">
+  <div id="table">
+    <div>
+      <h4 style="text-align: center;  border: 1px solid #353535; margin: 0px;">
+        LABORATORIO RADA FACTURACION SUBSIDIO {{mesData}}
+      </h4>
+      <table style="text-align: left;border-collapse: collapse !important;">
+        <tr>
+          <th class="chikeTh">Pacientes</th>
+          <th class="chikeTh">Cantidad de ordenes</th>
+          <th class="chikeTh">Monto</th>
+        </tr>
+        <tr *ngFor="let data of dataSource.data">
+          <td class="chikeTd">{{data.nameAfiliado}}</td>
+          <td class="chikeTd">{{data.cantOrdenes}}</td>
+          <td class="chikeTd">{{data.monto}}</td>
+        </tr>
+        <tr>
+          <td class="chikeTd">TOTAL</td>
+          <td class="chikeTd">{{totalOrdenesPdf}}</td>
+          <td class="chikeTd">{{totalCost}}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
