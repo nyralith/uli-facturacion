@@ -15,13 +15,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ResumenComponent } from './components/resumen/resumen.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { Service } from './components/service/data.service';
 import { ResumenFacturacionPacienteComponent } from './components/resumen-facturacion-paciente/resumen-facturacion-paciente.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalMesResumenComponent } from './components/modal-mes-resumen/modal-mes-resumen.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { ResumenFacturacionPacienteComponent } from './components/resumen-factur
     AppComponent,
     FacturasComponent,
     ResumenComponent,
-    ResumenFacturacionPacienteComponent
+    ResumenFacturacionPacienteComponent,
+    ModalMesResumenComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import { ResumenFacturacionPacienteComponent } from './components/resumen-factur
     MatNativeDateModule,
     MatAutocompleteModule,
     MatTabsModule,
+    MatDialogModule,
     AngularFireModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),

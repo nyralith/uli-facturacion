@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <h3>Ingrese el mes y año deseado</h3>
+  <div style="display: flex;">
+    <mat-form-field>
+      <mat-label>Ingrese Mes y Año</mat-label>
+      <input matInput [(ngModel)]="data">
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    </div>
+  </div>
+</div>

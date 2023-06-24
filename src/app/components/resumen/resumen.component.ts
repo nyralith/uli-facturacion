@@ -4,6 +4,8 @@ import * as html2pdf from 'html2pdf.js'
 import { FormControl, FormGroup } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
 
 
 @Component({
@@ -14,24 +16,26 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ResumenComponent {
   allData: any;
   filteredData: any;
+  totalCost: number = 0;
+  mesData: string = '';
+  totalOrdenesPdf: number = 0;
 
   dateForm = new FormGroup({
     fecha: new FormControl()
   })
-  constructor(private service: Service) {
+  constructor(private service: Service, public dialog: MatDialog) {
 
   }
   ELEMENT_DATA: any = []
 
 
   displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
-  // dataSource = new MatTableDataSource<any>;
   dataSource = new MatTableDataSource<any>
   acciones: any;
 
 
-  async ngOnInit() {
-    // await this.getAllData()
+  ngOnInit() {
+    console.log('iniciando')
   }
 
   filterDate(date: any) {
@@ -41,7 +45,6 @@ export class ResumenComponent {
 
   async getAllData() {
     this.allData = await this.service.getAllData();
-    console.log(this.allData[0])
   }
 
   async getFilteredData() {
@@ -49,8 +52,6 @@ export class ResumenComponent {
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
 
     this.filteredData.forEach(element => {
-
-    console.log(element, 'element')
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
         cantOrdenes: element.afiliado.ordenes.length,
@@ -59,10 +60,34 @@ export class ResumenComponent {
       this.dataSource.data.push(objectToSend)
     });
     this.dataSource._updateChangeSubscription();
-    console.log(this.dataSource.data)
+    this.dataSource.data.forEach(element => {
+      console.log(element.cantOrdenes)
+      this.totalCost += element.monto
+      this.totalOrdenesPdf += element.cantOrdenes
+    })
+
   }
 
-  downloadPdf() {
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ModalMesResumenComponent, {
+      data: { data: this.mesData },
+      disableClose: true,
+      width: '25em',
+      maxHeight: '100vh',
+      panelClass: 'no-margin',
+      closeOnNavigation: false
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(result, 'result')
+      this.mesData = result;
+      this.downloadPdf()
+    });
+
+  }
+
+  async downloadPdf() {
     let element = document.getElementById('table');
     let opt = {
       margin: 1,

@@ -17,35 +17,75 @@
         (click)="getFilteredData()">Traer datos de la fecha</button>
     <button mat-raised-button color="primary" (click)="downloadPdf()">Descargar pdf</button>
 </div>
-    <div>
-        <form>
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
-                <ng-container matColumnDef="nameAfiliado">
-                    <th class="background-header" mat-header-cell *matHeaderCellDef> Paciente </th>
-                    <td mat-cell *matCellDef="let element"> {{element.nameAfiliado}} </td>
-                </ng-container>
+<div>
+    <form>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
+            <ng-container matColumnDef="nameAfiliado">
+                <th class="background-header" mat-header-cell *matHeaderCellDef> Paciente </th>
+                <td mat-cell *matCellDef="let element"> {{element.nameAfiliado}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="cantOrdenes">
-                    <th class="background-header" mat-header-cell *matHeaderCellDef> Analisis realizados </th>
-                    <td mat-cell *matCellDef="let element"> {{element.cantOrdenes}} </td>
-                </ng-container>
-                <ng-container matColumnDef="monto">
-                    <th class="background-header" mat-header-cell *matHeaderCellDef> Monto </th>
-                    <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
-                </ng-container>
+            <ng-container matColumnDef="cantOrdenes">
+                <th class="background-header" mat-header-cell *matHeaderCellDef> Analisis realizados </th>
+                <td mat-cell *matCellDef="let element"> {{element.cantOrdenes}} </td>
+            </ng-container>
+            <ng-container matColumnDef="monto">
+                <th class="background-header" mat-header-cell *matHeaderCellDef> Monto </th>
+                <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="acciones">
-                    <th class="background-header" mat-header-cell *matHeaderCellDef> Acciones </th>
-                    <td mat-cell *matCellDef="let element"><button mat-mini-fab color="warn"
-                            aria-label="Example icon button with a delete icon" (click)="(acciones)">
-                            <mat-icon>delete</mat-icon> </button>
-                        <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
-                            (click)="(acciones)" style="margin-left: 5px;">
-                            <mat-icon>edit</mat-icon> </button>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <ng-container matColumnDef="acciones">
+                <th class="background-header" mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element"><button mat-mini-fab color="warn"
+                        aria-label="Example icon button with a delete icon" (click)="(acciones)">
+                        <mat-icon>delete</mat-icon> </button>
+                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
+                        (click)="(acciones)" style="margin-left: 5px;">
+                        <mat-icon>edit</mat-icon> </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </form>
+</div>
+
+<div style="display: none;">
+    <div id="table">
+        <div style="display: flex; justify-content: space-around; border: 2px solid black;">
+            <div style="flex-direction: column; height: 150px;">
+                <h2>LABORATORIO RADA SH.</h2>
+                <h4>FACTURACION-MARZO 2023.</h4>
+                <h3>SUBSIDIO DE SALUD</h3>
+            </div>
+
+            <div style="flex-direction: column;height: 150px;">
+                <h4>S.M DE TUCUMÁN 31 DE MARZO 2023</h4>
+                <h4>HOJA:Nº1 </h4>
+                <h4>SANATORIO SUR</h4>
+                <h4>laboratoriorada@gmail.com</h4>
+
+            </div>
+
+        </div>
+
+        <div>
+            <table class="tablaPdf">
+                <tr class="chike">
+                    <th class="chikeTh">Nº de afiliado benecifiario</th>
+                    <th class="chikeTh">Afiliado-Beneficiario Atendido</th>
+                    <th class="chikeTh">Codigo</th>
+                    <th class="chikeTh">Analisis Realizados</th>
+                    <th class="chikeTh">Importe </th>
+                </tr>
+                <tr class="chike">
+                    <td class="chikeTd">5668</td>
+                    <td class="chikeTd">Silva Jorge Ramon</td>
+                    <td class="chikeTd">457</td>
+                    <td class="chikeTd">Hemograma</td>
+                    <td class="chikeTd">203,60</td>
+                </tr>
             </table>
-        </form>
+        </div>
     </div>
+</div>
