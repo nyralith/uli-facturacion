@@ -65,11 +65,12 @@
                         </mat-form-field>
 
 
-                        <button style="margin-left: 7px;" mat-mini-fab color="primary"
+                        <button style="margin-left: 7px;" mat-raised-button color="primary" color="primary"
                             style="background-color: rgb(33, 56, 107);"
-                            aria-label="Example icon button with a delete icon" [disabled]="!analisisForm.valid"
+                            aria-label="Example icon button with a delete icon" [disabled]="!analisisForm.valid && !afiliadoForm.valid"
                             (click)="addNewAnalisis()">
-                            <mat-icon>check_circle</mat-icon>
+                            Agregar analisis
+                            <mat-icon>check</mat-icon>
                         </button>
                     </form>
                 </div>
