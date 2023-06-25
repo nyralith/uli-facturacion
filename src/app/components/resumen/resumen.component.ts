@@ -47,21 +47,28 @@ export class ResumenComponent {
     this.allData = await this.service.getAllData();
   }
 
+  getOrderAmount(order: any) {
+    let result = 0
+    order.forEach(element => {
+      result += element.orden.length
+    })
+    return result;
+  }
+
   async getFilteredData() {
     this.dataSource.data = []
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
-
     this.filteredData.forEach(element => {
+      console.log(element)
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
-        cantOrdenes: element.afiliado.ordenes.length,
+        cantOrdenes: this.getOrderAmount(element.afiliado.ordenes),
         monto: element.afiliado.importe
       }
       this.dataSource.data.push(objectToSend)
     });
     this.dataSource._updateChangeSubscription();
     this.dataSource.data.forEach(element => {
-      console.log(element.cantOrdenes)
       this.totalCost += element.monto
       this.totalOrdenesPdf += element.cantOrdenes
     })
@@ -78,20 +85,17 @@ export class ResumenComponent {
       panelClass: 'no-margin',
       closeOnNavigation: false
     });
-
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log(result, 'result')
       this.mesData = result;
       this.downloadPdf()
     });
-
   }
 
   async downloadPdf() {
     let element = document.getElementById('table');
     let opt = {
       margin: 1,
-      filename: `resumen-${(this.mesData).replace(/\s/g,"-")}`,
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }

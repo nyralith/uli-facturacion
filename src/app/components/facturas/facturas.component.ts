@@ -24,9 +24,11 @@ export class FacturasComponent {
   data = data
   filteredCodes!: Observable<string[]>;
   filteredAnalisis!: Observable<string[]>;
+  ordenes: any = [];
   codigosData: any;
   analisisData: any;
   ordersToSend: any = [];
+  importeTotal: number = 0;
 
 
 
@@ -108,10 +110,8 @@ export class FacturasComponent {
     if (codigoBuscado) {
       this.analisisForm.controls['analisis'].patchValue(codigoBuscado.analisis.toLowerCase());
       this.analisisForm.controls['importe'].patchValue(codigoBuscado.importe);
-      console.log('entrando en if')
     }
     else if (analisisBuscado) {
-      console.log('entrando analisis buscado')
       this.analisisForm.controls['codigo'].patchValue(analisisBuscado.codigo);
       this.analisisForm.controls['importe'].patchValue(analisisBuscado.importe);
     }
@@ -142,26 +142,51 @@ export class FacturasComponent {
     console.log('holapes deleteadas')
   }
 
-  async sendOrder() {
-    let importeTotal = 0;
-    let randomid = uuidv4();
-    for (let i = 0; i < this.dataSource.data.length; i++) {
-      importeTotal += this.dataSource.data[i].importe
+
+  saveOrder() {
+    for (const element of this.dataSource.data) {
+      this.importeTotal += element.importe
     }
+
+    // this.dataSource.data.forEach(element => {
+    //   this.ordenes.push(element);
+
+    // })
+
+    // this.ordersToSend = {
+    //   data: [this.ordenes]
+    // }
+
+    this.ordersToSend.push(
+      {
+        orden: this.dataSource.data
+      }
+    )
+    this.dataSource.data = [];
+  }
+
+  async sendOrders() {
+    // this.ordenesTotal.forEach(element => {
+    //   this.ordersToSend = [];
+    //   this.ordersToSend.push(element)
+    // })
+    let randomid = uuidv4();
     const dataToSend = {
       numAfiliado: this.afiliadoForm.controls['numAfiliado'].value,
       nameAfiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
       fecha: this.filterDate(this.afiliadoForm.controls['fechaFactura'].value),
-      ordenes: this.dataSource.data,
-      importe: importeTotal
+      ordenes: this.ordersToSend,
+      importe: this.importeTotal
     };
-    await this.service.addNewUser(randomid, dataToSend)
-    console.log(dataToSend, 'datatosend');
+
+
+     await this.service.addNewUser(randomid, dataToSend)
+    console.log(dataToSend)
 
     this.ordersToSend = [];
     this.dataSource.data = [];
+    this.importeTotal = 0;
     this.dataSource._updateChangeSubscription();
-    console.log(dataToSend)
   }
 
 
