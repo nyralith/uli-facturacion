@@ -13,7 +13,6 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ResumenFacturacionPacienteComponent {
   allData: any;
-  service: any;
   filteredData: any;
   dateForm: any;
   dataSource = new MatTableDataSource<any>
@@ -25,7 +24,7 @@ export class ResumenFacturacionPacienteComponent {
     fechaFactura: new FormControl('', Validators.required),
   })
 
-  constructor(private services: Service) {
+  constructor(private service: Service) {
 
   }
 
@@ -58,17 +57,17 @@ export class ResumenFacturacionPacienteComponent {
   }
 
   async getAllData() {
-    this.allData = await this.services.getAllData();
+    this.allData = await this.service.getAllData();
     console.log(this.allData[0])
   }
 
   async getFilteredData() {
-    this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
-
-    console.log(this.filterDate(this.dateForm.controls['fecha'].value).toString())
-    console.log(this.filteredData);
-
+    console.log('entrando')
+    console.log(this.filterForm.controls['nameAfiliado'].value)
+    
+    this.filteredData = await this.service.getFilteredFactura((this.filterDate(this.filterForm.controls['fechaFactura'].value).toString()), this.filterForm.controls['nameAfiliado'].value);
     this.ELEMENT_DATA = this.filteredData
+    console.log(this.ELEMENT_DATA)
   }
 
 
