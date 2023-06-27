@@ -23,7 +23,7 @@ import { Service } from './components/service/data.service';
 import { ResumenFacturacionPacienteComponent } from './components/resumen-facturacion-paciente/resumen-facturacion-paciente.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalMesResumenComponent } from './components/modal-mes-resumen/modal-mes-resumen.component';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -49,6 +49,7 @@ import { ModalMesResumenComponent } from './components/modal-mes-resumen/modal-m
     MatAutocompleteModule,
     MatTabsModule,
     MatDialogModule,
+    MatSnackBarModule,
     AngularFireModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
