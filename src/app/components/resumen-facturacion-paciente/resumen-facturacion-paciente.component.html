@@ -44,13 +44,19 @@
                         <td class="chikeTd"></td>
                         <td class="chikeTd"></td>
                         <td class="chikeTd">{{orden.codigo}}</td>
-                        <td class="chikeTd">{{orden.analisis}}
+                        <td class="chikeTd">{{orden.analisis}}</td>
                         <td class="chikeTd">{{orden.importe}}</td>
                     </tr>
 
                 </ng-container>
             </ng-container>
-
+            <tr>
+                <td class="chikeTd"></td>
+                <td class="chikeTd"></td>
+                <td class="chikeTd"></td>
+                <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
+                <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
+            </tr>
         </table>
     </div>
 </div>
@@ -60,19 +66,23 @@
 
 <div style="display: none;">
     <div *ngIf="this.filteredData" style="text-align: center;" id="table">
-        <div style="display: flex; justify-content: space-around; border: 2px solid black;">
+
+
+        <div style="display: flex; justify-content: space-around; border: 2px solid black;" id="test">
             <div style="flex-direction: column; height: 150px;">
                 <h2>LABORATORIO RADA SH.</h2>
-                <h4>FACTURACION-MARZO 2023.</h4>
+                <h4>FACTURACION {{mesData | uppercase}}.</h4>
                 <h3>SUBSIDIO DE SALUD</h3>
             </div>
             <div style="flex-direction: column;height: 150px;">
-                <h4>S.M DE TUCUMÁN 31 DE MARZO 2023</h4>
-                <h4>HOJA:Nº1 </h4>
+                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }}</h4>
+                <!-- <h4>HOJA:Nº1 </h4> -->
                 <h4>SANATORIO SUR</h4>
                 <h4>laboratoriorada@gmail.com</h4>
             </div>
         </div>
+
+
         <table style="border-collapse: collapse !important;">
             <tr>
                 <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
@@ -94,11 +104,18 @@
                         <td class="chikeTd"></td>
                         <td class="chikeTd"></td>
                         <td class="chikeTd">{{orden.codigo}}</td>
-                        <td class="chikeTd">{{orden.analisis}}
+                        <td class="chikeTd">{{orden.analisis}}</td>
                         <td class="chikeTd">{{orden.importe}}</td>
                     </tr>
                 </ng-container>
             </ng-container>
+            <tr>
+                <td class="chikeTd"></td>
+                <td class="chikeTd"></td>
+                <td class="chikeTd"></td>
+                <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
+                <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
+            </tr>
         </table>
     </div>
 </div>

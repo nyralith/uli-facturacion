@@ -129,23 +129,38 @@ export class FacturasComponent {
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = parseInt(this.analisisForm.controls['importe'].value);
     let nbu = parseFloat(this.afiliadoForm.controls['nbu'].value!);
-    let orden = {
-      codigo: codigo,
-      analisis: analisis,
-      importe: Math.round(importe * nbu!),
+
+    if (!isNaN(importe)) {
+      let orden = {
+        codigo: codigo,
+        analisis: analisis,
+        importe: Math.round(importe * nbu),
+      }
+      this.analisisForm.controls['codigo'].patchValue('')
+      this.analisisForm.controls['analisis'].patchValue('');
+      this.analisisForm.controls['importe'].patchValue('');
+      this.dataSource.data.push(orden);
+      this.dataSource._updateChangeSubscription();
+
+    } else if (isNaN(importe)) {
+      let orden = {
+        codigo: codigo,
+        analisis: analisis,
+        importe: '-',
+      }
+      this.analisisForm.controls['codigo'].patchValue('')
+      this.analisisForm.controls['analisis'].patchValue('');
+      this.analisisForm.controls['importe'].patchValue('');
+      this.dataSource.data.push(orden);
+      this.dataSource._updateChangeSubscription();
     }
-
-    this.analisisForm.controls['codigo'].patchValue('')
-    this.analisisForm.controls['analisis'].patchValue('');
-    this.analisisForm.controls['importe'].patchValue('');
-
-    this.dataSource.data.push(orden);
-    this.dataSource._updateChangeSubscription();
   }
 
-  deleteAnalisis() {
+  deleteAnalisis(index: number) {
     console.log('holapes deleteadas')
     this.openSnackBar("Se borró con éxito", "X")
+    this.dataSource.data.splice(index, 1)
+    this.dataSource._updateChangeSubscription();
   }
 
 
@@ -153,17 +168,10 @@ export class FacturasComponent {
     for (const element of this.dataSource.data) {
       this.importeTotal += element.importe
       this.openSnackBar("La operación se realizó con éxito", "X")
+      if (!isNaN(element.importe)) {
+        this.importeTotal += element.importe
+      }
     }
-
-    // this.dataSource.data.forEach(element => {
-    //   this.ordenes.push(element);
-
-    // })
-
-    // this.ordersToSend = {
-    //   data: [this.ordenes]
-    // }
-
     this.ordersToSend.push(
       {
         orden: this.dataSource.data
@@ -187,7 +195,7 @@ export class FacturasComponent {
     };
 
 
-     await this.service.addNewUser(randomid, dataToSend)
+    await this.service.addNewUser(randomid, dataToSend)
     console.log(dataToSend)
 
     this.ordersToSend = [];

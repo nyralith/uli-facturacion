@@ -22,7 +22,10 @@ export class ResumenFacturacionPacienteComponent {
   displayedColumns: string[] = ['numAfiliado', 'nameAfiliado', 'codigo', 'analisis', 'importe'];
   acciones: any;
   mesData: any;
-  dataArray: any = []
+  diaData = new Date();
+  dataArray: any = [];
+  totalCost: number = 0;
+  paciente: any
 
   filterForm = new FormGroup({
     nameAfiliado: new FormControl('', Validators.required),
@@ -38,9 +41,6 @@ export class ResumenFacturacionPacienteComponent {
     let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
 
-
-  async ngOnInit() {
-  }
 
 
   filterDate(date: any) {
@@ -72,9 +72,11 @@ export class ResumenFacturacionPacienteComponent {
   async getFilteredData() {
     this.filteredData = []
     this.dataArray = []
+    this.totalCost = 0;
     this.filteredData = await this.service.getFilteredFactura((this.filterDate(this.filterForm.controls['fechaFactura'].value).toString()), this.filterForm.controls['nameAfiliado'].value);
 
     this.filteredData.forEach(element => {
+      console.log(element)
       const data = {
         numAfiliado: element.afiliado.numAfiliado,
         nameAfiliado: element.afiliado.nameAfiliado,
@@ -82,7 +84,12 @@ export class ResumenFacturacionPacienteComponent {
         importe: element.afiliado.importe,
         ordenes: element.afiliado.ordenes
       };
-      this.dataArray.push(data)
+      if (!isNaN(element.afiliado.importe)) {
+        console.log(element.afiliado.importe)
+        this.totalCost += element.afiliado.importe;
+      }
+
+      this.dataArray.push(data);
       this.openSnackBar("La operación se realizó con éxito", "X")
     });
 
@@ -91,17 +98,23 @@ export class ResumenFacturacionPacienteComponent {
 
   downloadPdf() {
     let element = document.getElementById('table');
-    let opt = {
+
+    html2pdf().from(element).set({
       margin: 1,
-      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.filterForm.controls['nameAfiliado'].value)}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
+      pageBreak: { mode: 'css', before: '#nextpage1' },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    }).toPdf().get('pdf').then(function (pdf) {
+      let totalPages = pdf.internal.getNumberOfPages();
 
-    // New Promise-based usage:
-    html2pdf().from(element).set(opt).save();
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(10);
+        pdf.setTextColor(150);
+        pdf.text('Hoja ' + i + ' de ' + totalPages, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 8));
+      }
+    }).save();
   }
-
-
 }

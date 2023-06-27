@@ -95,12 +95,13 @@
                                 style="background-color: rgb(25, 43, 83); color: white;"> Importe</th>
                             <td mat-cell *matCellDef="let element"> ${{element.importe}} </td>
                         </ng-container>
-                        <ng-container matColumnDef="eliminar">
+                        <ng-container matColumnDef="eliminar" >
                             <th mat-header-cell *matHeaderCellDef
                                 style="background-color: rgb(25, 43, 83); color: white;"> Eliminar</th>
-                            <td mat-cell *matCellDef="let element"><button style="margin-left: 7px;" mat-mini-fab
+                            <td mat-cell *matCellDef="let i = index">
+                                <button style="margin-left: 7px;" mat-mini-fab
                                     color="warn" aria-label="Example icon button with a delete icon"
-                                    (click)="deleteAnalisis()">
+                                    (click)="deleteAnalisis(i)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>

@@ -5,7 +5,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
 
 
@@ -21,14 +21,15 @@ export class ResumenComponent {
   mesData: string = '';
   totalOrdenesPdf: number = 0;
   dateForm = new FormGroup({
-    fecha: new FormControl() 
+    fecha: new FormControl()
   })
 
   constructor(private service: Service, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
   openSnackBar(message, action) {
     // let snackBarRef = this._snackBar.open(message, action, { duration: 2000 });
-    let snackBarRef = this._snackBar.open(message,action, { duration: 5000 });}
+    let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
+  }
 
   ELEMENT_DATA: any = []
 
@@ -74,9 +75,12 @@ export class ResumenComponent {
     });
     this.dataSource._updateChangeSubscription();
     this.dataSource.data.forEach(element => {
-      this.totalCost += element.monto
+      if (!isNaN(element.monto)) {
+        this.totalCost += element.monto
+      }
+
       this.totalOrdenesPdf += element.cantOrdenes
-      this.openSnackBar("La operación se realizó con éxito", "X" )
+      this.openSnackBar("La operación se realizó con éxito", "X")
     });
   }
 
