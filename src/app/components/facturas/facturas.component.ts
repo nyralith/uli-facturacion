@@ -127,14 +127,14 @@ export class FacturasComponent {
   addNewAnalisis() {
     let codigo = (this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
-    let importe = parseInt(this.analisisForm.controls['importe'].value);
+    let importe = (this.analisisForm.controls['importe'].value);
     let nbu = parseFloat(this.afiliadoForm.controls['nbu'].value!);
     
     if (!isNaN(importe)) {
       let orden = {
         codigo: codigo,
         analisis: analisis,
-        importe: Math.round(importe * nbu),
+        importe: Math.round(parseInt(importe) * nbu),
       }
       this.analisisForm.controls['codigo'].patchValue('')
       this.analisisForm.controls['analisis'].patchValue('');
@@ -166,11 +166,10 @@ export class FacturasComponent {
 
   saveOrder() {
     for (const element of this.dataSource.data) {
-      this.importeTotal += element.importe
-      this.openSnackBar("La operación se realizó con éxito", "X")
-      if (!isNaN(element.importe)) {
+      if(!isNaN(element.importe)){
         this.importeTotal += element.importe
       }
+      this.openSnackBar("La operación se realizó con éxito", "X")
     }
     this.ordersToSend.push(
       {
