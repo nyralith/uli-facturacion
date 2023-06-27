@@ -20,6 +20,7 @@
             "outputPath": "dist/uli-facturas",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [ "raf", "core-js", "dompurify", "html2canvas", "rgbcolor"],
             "polyfills": [
               "zone.js"
             ],

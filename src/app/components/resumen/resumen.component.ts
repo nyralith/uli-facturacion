@@ -27,15 +27,10 @@ export class ResumenComponent {
   constructor(private service: Service, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
   openSnackBar(message, action) {
-    // let snackBarRef = this._snackBar.open(message, action, { duration: 2000 });
     let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
-
-  ELEMENT_DATA: any = []
-
-
   displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
-  dataSource = new MatTableDataSource<any>
+  dataSourceResumen = new MatTableDataSource<any>
   acciones: any;
 
 
@@ -62,19 +57,19 @@ export class ResumenComponent {
 
   async getFilteredData() {
     this.totalCost = 0;
-    this.dataSource.data = []
+    this.dataSourceResumen.data = []
+    console.log(this.dataSourceResumen)
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
     this.filteredData.forEach(element => {
-      console.log(element)
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
         cantOrdenes: this.getOrderAmount(element.afiliado.ordenes),
         monto: element.afiliado.importe
       }
-      this.dataSource.data.push(objectToSend)
+      this.dataSourceResumen.data.push(objectToSend)
     });
-    this.dataSource._updateChangeSubscription();
-    this.dataSource.data.forEach(element => {
+    this.dataSourceResumen._updateChangeSubscription();
+    this.dataSourceResumen.data.forEach(element => {
       if (!isNaN(element.monto)) {
         this.totalCost += element.monto
       }

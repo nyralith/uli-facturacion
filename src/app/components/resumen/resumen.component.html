@@ -14,12 +14,12 @@
   <button mat-raised-button color="primary" (click)="openDialog()">Descargar pdf</button>
 </div>
 
-<div *ngIf="dataSource.data.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
+<div *ngIf="dataSourceResumen.data.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
   <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
 </div>
 
-<div *ngIf="dataSource.data.length > 0" style="margin-top: 10px;">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
+<div *ngIf="dataSourceResumen.data.length > 0" style="margin-top: 10px;">
+    <table mat-table [dataSource]="dataSourceResumen" class="mat-elevation-z3">
 
       <ng-container matColumnDef="nameAfiliado">
         <th class="background-header" mat-header-cell *matHeaderCellDef> Nombre del afiliado </th>
@@ -69,7 +69,7 @@
           <th class="chikeTh">Cantidad de ordenes</th>
           <th class="chikeTh">Monto</th>
         </tr>
-        <tr *ngFor="let data of dataSource.data">
+        <tr *ngFor="let data of dataSourceResumen.data">
           <td class="chikeTd">{{data.nameAfiliado}}</td>
           <td class="chikeTd">{{data.cantOrdenes}}</td>
           <td class="chikeTd">{{data.monto}}</td>
