@@ -19,7 +19,6 @@
 </div>
 
 <div *ngIf="dataSource.data.length > 0" style="margin-top: 10px;">
-  <form>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
 
       <ng-container matColumnDef="nameAfiliado">
@@ -55,7 +54,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
-  </form>
 </div>
 
 

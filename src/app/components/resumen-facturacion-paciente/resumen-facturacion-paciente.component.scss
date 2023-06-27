@@ -13,5 +13,19 @@ table {
     background-color: rgb(38, 66, 125) !important;
     color: white;
 
-  }
+}
+
+.tablaPdf {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
   
+  }
+
+.chikeTd,
+.chikeTh {
+    border: 1px solid #353535;
+    text-align: left;
+    padding: 5px;
+    line-height: 15px;
+}

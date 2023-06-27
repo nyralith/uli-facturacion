@@ -56,6 +56,7 @@ export class ResumenComponent {
   }
 
   async getFilteredData() {
+    this.totalCost = 0;
     this.dataSource.data = []
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
     this.filteredData.forEach(element => {
@@ -79,7 +80,7 @@ export class ResumenComponent {
   openDialog() {
     const dialogRef = this.dialog.open(ModalMesResumenComponent, {
       data: { data: this.mesData },
-      disableClose: true,
+      disableClose: false,
       width: '25em',
       maxHeight: '100vh',
       panelClass: 'no-margin',

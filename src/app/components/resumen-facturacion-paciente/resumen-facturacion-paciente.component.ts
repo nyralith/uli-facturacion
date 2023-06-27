@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as html2pdf from 'html2pdf.js'
 import { Service } from '../service/data.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
 
 
 @Component({
@@ -16,35 +18,19 @@ export class ResumenFacturacionPacienteComponent {
   filteredData: any;
   dateForm: any;
   dataSource = new MatTableDataSource<any>
-  displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
+  displayedColumns: string[] = ['numAfiliado', 'nameAfiliado', 'codigo', 'analisis', 'importe'];
   acciones: any;
+  mesData: any;
+  dataArray: any = []
 
   filterForm = new FormGroup({
     nameAfiliado: new FormControl('', Validators.required),
     fechaFactura: new FormControl('', Validators.required),
   })
 
-  constructor(private service: Service) {
+  constructor(private service: Service, public dialog: MatDialog) {
 
   }
-
-  ELEMENT_DATA: any = [
-    {
-      nameAfiliado: 'DEVORA MELTROZO',
-      cantOrdenes: '6',
-      monto: '90.000',
-    },
-    {
-      nameAfiliado: 'Digger Nick',
-      cantOrdenes: '3',
-      monto: '67.000',
-    },
-    {
-      nameAfiliado: 'Knee Gurr',
-      cantOrdenes: '32',
-      monto: '11.596',
-    }
-  ]
 
 
   async ngOnInit() {
@@ -58,16 +44,40 @@ export class ResumenFacturacionPacienteComponent {
 
   async getAllData() {
     this.allData = await this.service.getAllData();
-    console.log(this.allData[0])
+  }
+
+
+  openDialog() {
+    const dialogRef = this.dialog.open(ModalMesResumenComponent, {
+      data: { data: this.mesData },
+      disableClose: false,
+      width: '25em',
+      maxHeight: '100vh',
+      panelClass: 'no-margin',
+      closeOnNavigation: false
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      this.mesData = result;
+      this.downloadPdf()
+    });
   }
 
   async getFilteredData() {
-    console.log('entrando')
-    console.log(this.filterForm.controls['nameAfiliado'].value)
-    
+    this.filteredData = []
+    this.dataArray = []
     this.filteredData = await this.service.getFilteredFactura((this.filterDate(this.filterForm.controls['fechaFactura'].value).toString()), this.filterForm.controls['nameAfiliado'].value);
-    this.ELEMENT_DATA = this.filteredData
-    console.log(this.ELEMENT_DATA)
+
+    this.filteredData.forEach(element => {
+      const data = {
+        numAfiliado: element.afiliado.numAfiliado,
+        nameAfiliado: element.afiliado.nameAfiliado,
+        fecha: element.afiliado.fecha,
+        importe: element.afiliado.importe,
+        ordenes: element.afiliado.ordenes
+      };
+      this.dataArray.push(data)
+    });
+
   }
 
 
@@ -75,7 +85,7 @@ export class ResumenFacturacionPacienteComponent {
     let element = document.getElementById('table');
     let opt = {
       margin: 1,
-      filename: 'resumen.pdf',
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
