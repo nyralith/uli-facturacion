@@ -7,7 +7,7 @@ import { data } from '../data/analisis';
 import { Observable } from 'rxjs';
 import { Service } from '../service/data.service';
 import { v4 as uuidv4 } from 'uuid';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -42,12 +42,17 @@ export class FacturasComponent {
 
   analisisForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: Service) {
+  constructor(private fb: FormBuilder, private service: Service,private _snackBar: MatSnackBar) {
     this.analisisForm = this.fb.group({
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
       importe: ['', Validators.required],
     })
+  }
+
+  openSnackBar(message, action) {
+    // let snackBarRef = this._snackBar.open(message, action, { duration: 2000 });
+    let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
 
   ngOnInit() {
@@ -140,12 +145,14 @@ export class FacturasComponent {
 
   deleteAnalisis() {
     console.log('holapes deleteadas')
+    this.openSnackBar("Se borró con éxito", "X")
   }
 
 
   saveOrder() {
     for (const element of this.dataSource.data) {
       this.importeTotal += element.importe
+      this.openSnackBar("La operación se realizó con éxito", "X")
     }
 
     // this.dataSource.data.forEach(element => {
@@ -187,6 +194,7 @@ export class FacturasComponent {
     this.dataSource.data = [];
     this.importeTotal = 0;
     this.dataSource._updateChangeSubscription();
+    this.openSnackBar("La operación se realizó con éxito", "X")
   }
 
 

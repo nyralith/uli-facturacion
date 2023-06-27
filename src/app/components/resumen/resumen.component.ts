@@ -95,6 +95,7 @@ export class ResumenComponent {
     dialogRef.afterClosed().subscribe((result: any) => {
       this.mesData = result;
       this.downloadPdf()
+      this.openSnackBar("La descarga se realizó con éxito", "X" )
     });
   }
 

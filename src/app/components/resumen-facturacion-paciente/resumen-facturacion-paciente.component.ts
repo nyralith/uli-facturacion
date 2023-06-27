@@ -5,6 +5,7 @@ import * as html2pdf from 'html2pdf.js'
 import { Service } from '../service/data.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
 
 
@@ -28,8 +29,13 @@ export class ResumenFacturacionPacienteComponent {
     fechaFactura: new FormControl('', Validators.required),
   })
 
-  constructor(private service: Service, public dialog: MatDialog) {
+  constructor(private service: Service, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
+  }
+
+  openSnackBar(message, action) {
+    // let snackBarRef = this._snackBar.open(message, action, { duration: 2000 });
+    let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
 
 
@@ -59,6 +65,7 @@ export class ResumenFacturacionPacienteComponent {
     dialogRef.afterClosed().subscribe((result: any) => {
       this.mesData = result;
       this.downloadPdf()
+      this.openSnackBar("La descarga se realizó con éxito", "X")
     });
   }
 
@@ -76,6 +83,7 @@ export class ResumenFacturacionPacienteComponent {
         ordenes: element.afiliado.ordenes
       };
       this.dataArray.push(data)
+      this.openSnackBar("La operación se realizó con éxito", "X")
     });
 
   }
