@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Service } from '../service/data.service';
 import * as html2pdf from 'html2pdf.js'
 import { FormControl, FormGroup } from '@angular/forms';
@@ -7,7 +7,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
-
+import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 @Component({
   selector: 'app-resumen',
@@ -23,6 +27,7 @@ export class ResumenComponent {
   dateForm = new FormGroup({
     fecha: new FormControl()
   })
+  downloadPdf: any;
 
   constructor(private service: Service, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
@@ -98,19 +103,19 @@ export class ResumenComponent {
     });
   }
 
-  async downloadPdf() {
-    let element = document.getElementById('table');
-    let opt = {
-      margin: 1,
-      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-
-    // New Promise-based usage:
-    html2pdf().from(element).set(opt).save();
+  async 
+  @ViewChild('pdfTable') pdfTable: ElementRef;
+  
+  public downloadAsPDF() {
+    const doc = new jsPDF();
+   
+    const pdfTable = this.pdfTable.nativeElement;
+   
+    let html = htmlToPdfmake(pdfTable.innerHTML);
+     
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).open(); 
+     
   }
-
 
 }
