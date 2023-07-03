@@ -27,7 +27,7 @@ export class ResumenComponent {
   dateForm = new FormGroup({
     fecha: new FormControl()
   })
-  downloadPdf: any;
+
 
   constructor(private service: Service, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
@@ -103,10 +103,9 @@ export class ResumenComponent {
     });
   }
 
-  async 
   @ViewChild('pdfTable') pdfTable: ElementRef;
   
-  public downloadAsPDF() {
+  public downloadPdf() {
     const doc = new jsPDF();
    
     const pdfTable = this.pdfTable.nativeElement;
