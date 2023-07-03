@@ -35,7 +35,7 @@ export class ResumenComponent {
 
 
   ngOnInit() {
-    console.log('iniciando')
+    this.dateForm.reset()
   }
 
   filterDate(date: any) {
