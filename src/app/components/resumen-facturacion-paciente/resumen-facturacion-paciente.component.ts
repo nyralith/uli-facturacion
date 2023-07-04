@@ -96,6 +96,10 @@ export class ResumenFacturacionPacienteComponent {
   }
 
 
+
+
+
+
   downloadPdf() {
     let element = document.getElementById('table');
 
@@ -104,16 +108,17 @@ export class ResumenFacturacionPacienteComponent {
       filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.filterForm.controls['nameAfiliado'].value)}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
-      pageBreak: { mode: 'css', before: '#nextpage1' },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+      pagebreak: {
+        mode: ['avoid-all', 'css', 'legacy']
+    },
+      jsPDF: { unit: 'in', format: 'A4'}
     }).toPdf().get('pdf').then(function (pdf) {
       let totalPages = pdf.internal.getNumberOfPages();
 
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
         pdf.setFontSize(10);
-        pdf.setTextColor(150);
-        pdf.text('Hoja ' + i + ' de ' + totalPages, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 8));
+        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.5));
       }
     }).save();
   }
