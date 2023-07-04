@@ -76,7 +76,6 @@ export class ResumenFacturacionPacienteComponent {
     this.filteredData = await this.service.getFilteredFactura((this.filterDate(this.filterForm.controls['fechaFactura'].value).toString()), this.filterForm.controls['nameAfiliado'].value);
 
     this.filteredData.forEach(element => {
-      console.log(element)
       const data = {
         numAfiliado: element.afiliado.numAfiliado,
         nameAfiliado: element.afiliado.nameAfiliado,
@@ -85,7 +84,6 @@ export class ResumenFacturacionPacienteComponent {
         ordenes: element.afiliado.ordenes
       };
       if (!isNaN(element.afiliado.importe)) {
-        console.log(element.afiliado.importe)
         this.totalCost += element.afiliado.importe;
       }
 

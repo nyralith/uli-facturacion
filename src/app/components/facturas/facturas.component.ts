@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { map, startWith } from 'rxjs/operators';
@@ -17,6 +17,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./facturas.component.scss']
 })
 export class FacturasComponent {
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.key == '+') {
+      this.saveOrder()
+    }
+  }
+
   editOrder: any;
   showCreateOrder: boolean = false;
   displayedColumns: string[] = ['codigo', 'analisis', 'importe', 'eliminar'];
@@ -42,7 +49,7 @@ export class FacturasComponent {
 
   analisisForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private service: Service,private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private service: Service, private _snackBar: MatSnackBar) {
     this.analisisForm = this.fb.group({
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
@@ -127,14 +134,13 @@ export class FacturasComponent {
   addNewAnalisis() {
     let codigo = (this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
-    let importe = (this.analisisForm.controls['importe'].value);
+    let importe = parseFloat(this.analisisForm.controls['importe'].value);
     let nbu = parseFloat(this.afiliadoForm.controls['nbu'].value!);
-    
     if (!isNaN(importe)) {
       let orden = {
         codigo: codigo,
         analisis: analisis,
-        importe: Math.round(parseInt(importe) * nbu),
+        importe: Math.round(importe * nbu),
       }
       this.analisisForm.controls['codigo'].patchValue('')
       this.analisisForm.controls['analisis'].patchValue('');
@@ -157,7 +163,6 @@ export class FacturasComponent {
   }
 
   deleteAnalisis(index: number) {
-    console.log('holapes deleteadas')
     this.openSnackBar("Se borró con éxito", "X")
     this.dataSource.data.splice(index, 1)
     this.dataSource._updateChangeSubscription();
@@ -166,24 +171,21 @@ export class FacturasComponent {
 
   saveOrder() {
     for (const element of this.dataSource.data) {
-      if(!isNaN(element.importe)){
+      if (!isNaN(element.importe)) {
         this.importeTotal += element.importe
       }
-      this.openSnackBar("La operación se realizó con éxito", "X")
+
     }
     this.ordersToSend.push(
       {
         orden: this.dataSource.data
       }
     )
+    this.openSnackBar("La guardó la orden", "X");
     this.dataSource.data = [];
   }
 
   async sendOrders() {
-    // this.ordenesTotal.forEach(element => {
-    //   this.ordersToSend = [];
-    //   this.ordersToSend.push(element)
-    // })
     let randomid = uuidv4();
     const dataToSend = {
       numAfiliado: this.afiliadoForm.controls['numAfiliado'].value,
@@ -195,13 +197,12 @@ export class FacturasComponent {
 
 
     await this.service.addNewUser(randomid, dataToSend)
-    console.log(dataToSend)
 
     this.ordersToSend = [];
     this.dataSource.data = [];
     this.importeTotal = 0;
     this.dataSource._updateChangeSubscription();
-    this.openSnackBar("La operación se realizó con éxito", "X")
+    this.openSnackBar("Se enviaron las órdenes", "X")
   }
 
 
