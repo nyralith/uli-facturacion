@@ -20,7 +20,9 @@ export class FacturasComponent {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.key == '+') {
-      this.saveOrder()
+      if (this.dataSource.data.length !== 0) {
+        this.saveOrder()
+      } else return
     }
   }
 

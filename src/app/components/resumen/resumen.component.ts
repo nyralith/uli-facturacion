@@ -51,9 +51,11 @@ export class ResumenComponent {
 
   getOrderAmount(order: any) {
     let result = 0
+    console.log(order,'order')
     order.forEach(element => {
       result += element.orden.length
     })
+    console.log(result, 'result')
     return result;
   }
 
@@ -61,10 +63,11 @@ export class ResumenComponent {
     this.totalCost = 0;
     this.dataSourceResumen.data = []
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
+    console.log(this.filteredData[0])
     this.filteredData.forEach(element => {
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
-        cantOrdenes: this.getOrderAmount(element.afiliado.ordenes),
+        cantOrdenes: element.afiliado.ordenes.length,
         monto: element.afiliado.importe
       }
       this.dataSourceResumen.data.push(objectToSend)
@@ -76,6 +79,7 @@ export class ResumenComponent {
       }
 
       this.totalOrdenesPdf += element.cantOrdenes
+      console.log(this.totalOrdenesPdf)
       this.openSnackBar("La operación se realizó con éxito", "X")
     });
   }
