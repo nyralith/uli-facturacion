@@ -10,6 +10,7 @@ import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen
 
 
 
+
 @Component({
   selector: 'app-resumen',
   templateUrl: './resumen.component.html',
@@ -51,19 +52,19 @@ export class ResumenComponent {
 
   getOrderAmount(order: any) {
     let result = 0
-    console.log(order,'order')
     order.forEach(element => {
       result += element.orden.length
     })
-    console.log(result, 'result')
     return result;
   }
+
+
+
 
   async getFilteredData() {
     this.totalCost = 0;
     this.dataSourceResumen.data = []
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
-    console.log(this.filteredData[0])
     this.filteredData.forEach(element => {
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
@@ -72,6 +73,23 @@ export class ResumenComponent {
       }
       this.dataSourceResumen.data.push(objectToSend)
     });
+
+    
+    let sortedData =  this.dataSourceResumen.data.sort((a: any,b: any) => {
+      let fa = a.nameAfiliado.toLowerCase(),
+          fb = b.nameAfiliado.toLowerCase();
+      if (fa < fb) {
+          return -1;
+      }
+      if (fa > fb) {
+          return 1;
+      }
+      return 0;
+    })
+
+
+    this.dataSourceResumen.data = sortedData
+
     this.dataSourceResumen._updateChangeSubscription();
     this.dataSourceResumen.data.forEach(element => {
       if (!isNaN(element.monto)) {
@@ -79,7 +97,6 @@ export class ResumenComponent {
       }
 
       this.totalOrdenesPdf += element.cantOrdenes
-      console.log(this.totalOrdenesPdf)
       this.openSnackBar("La operación se realizó con éxito", "X")
     });
   }
@@ -105,27 +122,27 @@ export class ResumenComponent {
 
 
   public downloadPdf() {
-  
+
     let element = document.getElementById('table');
 
     html2pdf().from(element).set({
-      margin: 1,
+      margin: 0.4,
       filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       pagebreak: {
         mode: ['avoid-all', 'css', 'legacy']
-    },
-      jsPDF: { unit: 'in', format: 'A4'}
+      },
+      jsPDF: { unit: 'in', format: 'A4', }
     }).toPdf().get('pdf').then(function (pdf) {
       let totalPages = pdf.internal.getNumberOfPages();
 
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
         pdf.setFontSize(10);
-        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.5));
+        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.2));
       }
     }).save();
   }
-  }
+}
 

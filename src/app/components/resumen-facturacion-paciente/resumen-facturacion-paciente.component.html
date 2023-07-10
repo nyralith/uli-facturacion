@@ -75,7 +75,7 @@
                 <h3>SUBSIDIO DE SALUD</h3>
             </div>
             <div style="flex-direction: column;">
-                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }}</h4>
+                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }} </h4>
 
                 <h4>SANATORIO SUR</h4>
                 <h4>laboratoriorada@gmail.com</h4>
@@ -94,8 +94,8 @@
             <ng-container *ngFor="let data of dataArray; let i = index">
                 <ng-container *ngFor="let ordenes of data.ordenes">
                     <tr>
-                        <td class="chikeTd">{{data.numAfiliado}}</td>
                         <td class="chikeTd">{{data.nameAfiliado}}</td>
+                        <td class="chikeTd">{{data.numAfiliado}}</td>
                         <td class="chikeTd"></td>
                         <td class="chikeTd"></td>
                         <td class="chikeTd"></td>

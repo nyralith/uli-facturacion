@@ -22,7 +22,7 @@ export class ResumenFacturacionPacienteComponent {
   displayedColumns: string[] = ['numAfiliado', 'nameAfiliado', 'codigo', 'analisis', 'importe'];
   acciones: any;
   mesData: any;
-  diaData = new Date();
+  diaData: any;
   dataArray: any = [];
   totalCost: number = 0;
   paciente: any
@@ -49,6 +49,7 @@ export class ResumenFacturacionPacienteComponent {
   }
 
   async getAllData() {
+
     this.allData = await this.service.getAllData();
   }
 
@@ -70,6 +71,7 @@ export class ResumenFacturacionPacienteComponent {
   }
 
   async getFilteredData() {
+    this.diaData = this.filterForm.controls['fechaFactura'].value;
     this.filteredData = []
     this.dataArray = []
     this.totalCost = 0;
@@ -102,7 +104,7 @@ export class ResumenFacturacionPacienteComponent {
     let element = document.getElementById('table');
 
     html2pdf().from(element).set({
-      margin: 1,
+      margin: 0.5,
       filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.filterForm.controls['nameAfiliado'].value)}`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
@@ -116,7 +118,7 @@ export class ResumenFacturacionPacienteComponent {
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
         pdf.setFontSize(10);
-        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.5));
+        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.2));
       }
     }).save();
   }
