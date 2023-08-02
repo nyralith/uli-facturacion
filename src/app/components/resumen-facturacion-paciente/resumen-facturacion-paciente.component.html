@@ -109,6 +109,45 @@
                             <td class="chikeTd">{{orden.importe}}</td>
                         </tr>
                     </ng-container>
+        <div style="display: flex; justify-content: space-around; border: 2px solid black;" id="test">
+            <div style="flex-direction: column;">
+                <h2>LABORATORIO RADA SH.</h2>
+                <h4>FACTURACION {{mesData | uppercase}}.</h4>
+                <h3>SUBSIDIO DE SALUD</h3>
+            </div>
+            <div style="flex-direction: column;">
+                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }} </h4>
+
+                <h4>SANATORIO SUR</h4>
+                <h4>laboratoriorada@gmail.com</h4>
+            </div>
+        </div>
+
+
+        <table style="border-collapse: collapse !important;">
+            <tr>
+                <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
+                <th class="chikeTh">N° de afiliado beneficiario</th>
+                <th class="chikeTh">CODIGO</th>
+                <th class="chikeTh">ANALISIS REALIZADO</th>
+                <th class="chikeTh ">IMPORTE</th>
+            </tr>
+            <ng-container *ngFor="let data of dataArray; let i = index">
+                <ng-container *ngFor="let ordenes of data.ordenes">
+                    <tr>
+                        <td class="chikeTd">{{data.nameAfiliado}}</td>
+                        <td class="chikeTd">{{data.numAfiliado}}</td>
+                        <td class="chikeTd"></td>
+                        <td class="chikeTd"></td>
+                        <td class="chikeTd"></td>
+                    </tr>
+                    <tr *ngFor="let orden of ordenes.orden">
+                        <td class="chikeTd"></td>
+                        <td class="chikeTd"></td>
+                        <td class="chikeTd">{{orden.codigo}}</td>
+                        <td class="chikeTd">{{orden.analisis}}</td>
+                        <td class="chikeTd">{{orden.importe}}</td>
+                    </tr>
                 </ng-container>
                 <tr>
                     <td class="chikeTd"></td>

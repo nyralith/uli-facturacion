@@ -1,10 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import * as html2pdf from 'html2pdf.js'
-import jsPDF from 'jspdf';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
 
 @Component({
   selector: 'app-root',

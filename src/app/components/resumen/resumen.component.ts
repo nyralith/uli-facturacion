@@ -7,11 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
-import jsPDF from 'jspdf';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
+
+
+
 
 @Component({
   selector: 'app-resumen',
@@ -60,19 +58,38 @@ export class ResumenComponent {
     return result;
   }
 
+
+
+
   async getFilteredData() {
     this.totalCost = 0;
     this.dataSourceResumen.data = []
-    console.log(this.dataSourceResumen)
     this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString());
     this.filteredData.forEach(element => {
       let objectToSend = {
         nameAfiliado: element.afiliado.nameAfiliado,
-        cantOrdenes: this.getOrderAmount(element.afiliado.ordenes),
+        cantOrdenes: element.afiliado.ordenes.length,
         monto: element.afiliado.importe
       }
       this.dataSourceResumen.data.push(objectToSend)
     });
+
+    
+    let sortedData =  this.dataSourceResumen.data.sort((a: any,b: any) => {
+      let fa = a.nameAfiliado.toLowerCase(),
+          fb = b.nameAfiliado.toLowerCase();
+      if (fa < fb) {
+          return -1;
+      }
+      if (fa > fb) {
+          return 1;
+      }
+      return 0;
+    })
+
+
+    this.dataSourceResumen.data = sortedData
+
     this.dataSourceResumen._updateChangeSubscription();
     this.dataSourceResumen.data.forEach(element => {
       if (!isNaN(element.monto)) {
@@ -99,22 +116,33 @@ export class ResumenComponent {
     dialogRef.afterClosed().subscribe((result: any) => {
       this.mesData = result;
       this.downloadPdf()
-      this.openSnackBar("La descarga se realizó con éxito", "X" )
+      this.openSnackBar("La descarga se realizó con éxito", "X")
     });
   }
 
-  @ViewChild('pdfTable') pdfTable: ElementRef;
-  
-  public downloadPdf() {
-    const doc = new jsPDF();
-   
-    const pdfTable = this.pdfTable.nativeElement;
-   
-    let html = htmlToPdfmake(pdfTable.innerHTML);
-     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).open(); 
-     
-  }
 
+  public downloadPdf() {
+
+    let element = document.getElementById('table');
+
+    html2pdf().from(element).set({
+      margin: 0.4,
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      pagebreak: {
+        mode: ['avoid-all', 'css', 'legacy']
+      },
+      jsPDF: { unit: 'in', format: 'A4', }
+    }).toPdf().get('pdf').then(function (pdf) {
+      let totalPages = pdf.internal.getNumberOfPages();
+
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(10);
+        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.2));
+      }
+    }).save();
+  }
 }
+

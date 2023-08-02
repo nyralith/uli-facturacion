@@ -27,7 +27,7 @@ export class ResumenFacturacionPacienteComponent {
   displayedColumns: string[] = ['numAfiliado', 'nameAfiliado', 'codigo', 'analisis', 'importe'];
   acciones: any;
   mesData: any;
-  diaData = new Date();
+  diaData: any;
   dataArray: any = [];
   totalCost: number = 0;
   paciente: any
@@ -54,6 +54,7 @@ export class ResumenFacturacionPacienteComponent {
   }
 
   async getAllData() {
+
     this.allData = await this.service.getAllData();
   }
 
@@ -75,13 +76,13 @@ export class ResumenFacturacionPacienteComponent {
   }
 
   async getFilteredData() {
+    this.diaData = this.filterForm.controls['fechaFactura'].value;
     this.filteredData = []
     this.dataArray = []
     this.totalCost = 0;
     this.filteredData = await this.service.getFilteredFactura((this.filterDate(this.filterForm.controls['fechaFactura'].value).toString()), this.filterForm.controls['nameAfiliado'].value);
 
     this.filteredData.forEach(element => {
-      console.log(element)
       const data = {
         numAfiliado: element.afiliado.numAfiliado,
         nameAfiliado: element.afiliado.nameAfiliado,
@@ -90,7 +91,6 @@ export class ResumenFacturacionPacienteComponent {
         ordenes: element.afiliado.ordenes
       };
       if (!isNaN(element.afiliado.importe)) {
-        console.log(element.afiliado.importe)
         this.totalCost += element.afiliado.importe;
       }
 
@@ -135,6 +135,31 @@ export class ResumenFacturacionPacienteComponent {
     const documentDefinition = { content: html };
     pdfMake.createPdf(documentDefinition).open(); 
      
+
+
+
+
+  downloadPdf() {
+    let element = document.getElementById('table');
+
+    html2pdf().from(element).set({
+      margin: 0.5,
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.filterForm.controls['nameAfiliado'].value)}`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      pagebreak: {
+        mode: ['avoid-all', 'css', 'legacy']
+    },
+      jsPDF: { unit: 'in', format: 'A4'}
+    }).toPdf().get('pdf').then(function (pdf) {
+      let totalPages = pdf.internal.getNumberOfPages();
+
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setFontSize(10);
+        pdf.text(`Hoja ${i} de ${totalPages}`, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 0.2));
+      }
+    }).save();
   }
 
 }
