@@ -24,9 +24,10 @@ import { ResumenFacturacionPacienteComponent } from './components/resumen-factur
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalMesResumenComponent } from './components/modal-mes-resumen/modal-mes-resumen.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSelectModule } from '@angular/material/select';
 import localeEs from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
+import { ModalIdentificadorAdminComponent } from './modal-identificador-admin/modal-identificador-admin.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -35,7 +36,8 @@ registerLocaleData(localeEs, 'es');
     FacturasComponent,
     ResumenComponent,
     ResumenFacturacionPacienteComponent,
-    ModalMesResumenComponent
+    ModalMesResumenComponent,
+    ModalIdentificadorAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ registerLocaleData(localeEs, 'es');
     MatTabsModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatSelectModule,
     AngularFireModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
