@@ -27,7 +27,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import localeEs from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
-import { ModalIdentificadorAdminComponent } from './modal-identificador-admin/modal-identificador-admin.component';
+import { ModalIdentificadorAdminComponent } from './components/modal-identificador-admin/modal-identificador-admin.component';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({

@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import * as html2pdf from 'html2pdf.js'
+import { Component } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,8 @@ export class AppComponent {
   title = 'uli-facturas';
 
 
+  ngOnInit(){
+
+  }
 }
 

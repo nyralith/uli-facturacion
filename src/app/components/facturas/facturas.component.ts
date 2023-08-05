@@ -47,6 +47,7 @@ export class FacturasComponent {
     nombreAfiliado: new FormControl('', Validators.required),
     fechaFactura: new FormControl('', Validators.required),
     nbu: new FormControl('', Validators.required),
+    numOrden: new FormControl(),
   })
 
   analisisForm: FormGroup;
@@ -138,6 +139,7 @@ export class FacturasComponent {
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = parseFloat(this.analisisForm.controls['importe'].value);
     let nbu = parseFloat(this.afiliadoForm.controls['nbu'].value!);
+
     if (!isNaN(importe)) {
       let orden = {
         codigo: codigo,
@@ -194,11 +196,18 @@ export class FacturasComponent {
       nameAfiliado: this.afiliadoForm.controls['nombreAfiliado'].value,
       fecha: this.filterDate(this.afiliadoForm.controls['fechaFactura'].value),
       ordenes: this.ordersToSend,
-      importe: this.importeTotal
+      importe: this.importeTotal,
+      numOrden: (this.afiliadoForm.controls['numOrden'].value) ? this.afiliadoForm.controls['numOrden'].value : '-'
     };
+    console.log(dataToSend, ' data enviada')
+
+    if (this.afiliadoForm.controls['numOrden'].value.length !== 0) {
+      await this.service.addOrders(randomid, dataToSend, 'facturasMami')
+    } else {
+      await this.service.addOrders(randomid, dataToSend, 'facturas')
+    }
 
 
-    await this.service.addNewUser(randomid, dataToSend)
 
     this.ordersToSend = [];
     this.dataSource.data = [];
