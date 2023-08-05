@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as html2pdf from 'html2pdf.js'
 import { Service } from '../service/data.service';
@@ -7,11 +7,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalMesResumenComponent } from '../modal-mes-resumen/modal-mes-resumen.component';
-import jsPDF from 'jspdf';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
 
 
 @Component({
@@ -101,40 +96,6 @@ export class ResumenFacturacionPacienteComponent {
   }
 
 
-  // downloadPdf() {
-  //   let element = document.getElementById('table');
-
-  //   html2pdf().from(element).set({
-  //     margin: 1,
-  //     filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.filterForm.controls['nameAfiliado'].value)}`,
-  //     image: { type: 'jpeg', quality: 0.98 },
-  //     html2canvas: { scale: 2 },
-  //     pageBreak: { mode: 'css', before: '#nextpage1' },
-  //     jsPDF: { unit: 'in', format: 'a4' }
-  //   }).toPdf().get('pdf').then(function (pdf) {
-  //     let totalPages = pdf.internal.getNumberOfPages();
-
-  //     for (let i = 1; i <= totalPages; i++) {
-  //       pdf.setPage(i);
-  //       pdf.setFontSize(10);
-  //       pdf.setTextColor(150);
-  //       pdf.text('Hoja ' + i + ' de ' + totalPages, (pdf.internal.pageSize.getWidth() / 2.25), (pdf.internal.pageSize.getHeight() - 8));
-  //     }
-  //   }).save();
-  // }
-
-  @ViewChild('pdfTable') pdfTable: ElementRef;
-  
-  public downloadPdf() {
-    const doc = new jsPDF();
-   
-    const pdfTable = this.pdfTable.nativeElement;
-   
-    let html = htmlToPdfmake(pdfTable.innerHTML);
-     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).open(); 
-     
 
 
 
@@ -161,5 +122,4 @@ export class ResumenFacturacionPacienteComponent {
       }
     }).save();
   }
-
 }

@@ -10,20 +10,5 @@ export class AppComponent {
   title = 'uli-facturas';
 
 
-  @ViewChild('pdfTable') pdfTable: ElementRef;
-  
-  public downloadAsPDF() {
-    const doc = new jsPDF();
-   
-    const pdfTable = this.pdfTable.nativeElement;
-   
-    let html = htmlToPdfmake(pdfTable.innerHTML);
-     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).open(); 
-     
-  }
-
-
 }
 
