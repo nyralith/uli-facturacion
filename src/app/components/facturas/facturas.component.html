@@ -23,15 +23,38 @@
                         <input matInput formControlName="nbu">
                     </mat-form-field>
 
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="example-full-width" *ngIf="isMama">
                         <mat-label>Numero de Orden</mat-label>
                         <input matInput formControlName="numOrden">
                     </mat-form-field>
-                    <!-- <button class="disabledButton" style="margin-left: 10px;" color="primary" mat-raised-button
-                        [disabled]="!afiliadoForm.valid" (click)="addOrder()">
-                        <mat-icon>add_box</mat-icon>
-                        Crear orden
-                    </button> -->
+
+                    <!-- <mat-form-field class="example-full-width" *ngIf="isMama">
+                        <mat-label>Obra Social</mat-label>
+                        <input matInput formControlName="obraSocial">
+                    </mat-form-field> -->
+
+                    <mat-form-field>
+                        <mat-label>Obra Social</mat-label>
+                        <mat-select formControlName="obraSocial">
+                            <mat-option value="Subsidio de salud">Subsidio de salud</mat-option>
+                            <mat-option value="OSPIA">OSPIA</mat-option>
+                            <mat-option value="Ricardo C. Mora">Ricardo C. Mora</mat-option>
+                            <mat-option value="Soremer">Soremer</mat-option>
+                            <mat-option value="OPSA">OPSA</mat-option>
+                            <mat-option value="Red de seguro medico">Red de seguro medico</mat-option>
+                            <mat-option value="Centro Medico Laprida">Centro Medico Laprida</mat-option>
+                            <mat-option value=" OSPRERA"> OSPRERA</mat-option>
+                            <mat-option value="OSSACRA">OSSACRA</mat-option>
+                            <mat-option value="Galeno Argentino">Galeno Argentino</mat-option>
+                            <mat-option value=" Prevencion ART"> Prevencion ART</mat-option>
+                            <mat-option value="Asociar ART">Asociar ART</mat-option>
+                            <mat-option value=" Integral ART"> Integral ART</mat-option>
+                            <mat-option value=" Popular ART"> Popular ART</mat-option>
+                            <mat-option value=" ADMED"> ADMED</mat-option>
+                            <mat-option value=" OSPLAT"> OSPLAT</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
                 </form>
             </div>
 
@@ -72,8 +95,8 @@
 
                         <button style="margin-left: 7px;" mat-raised-button color="primary" color="primary"
                             style="background-color: rgb(33, 56, 107);"
-                            aria-label="Example icon button with a delete icon" [disabled]="!analisisForm.valid || !afiliadoForm.valid"
-                            (click)="addNewAnalisis()">
+                            aria-label="Example icon button with a delete icon"
+                            [disabled]="!analisisForm.valid || !afiliadoForm.valid" (click)="addNewAnalisis()">
                             Agregar analisis
                             <mat-icon>check</mat-icon>
                         </button>
@@ -100,13 +123,12 @@
                                 style="background-color: rgb(25, 43, 83); color: white;"> Importe</th>
                             <td mat-cell *matCellDef="let element"> ${{element.importe}} </td>
                         </ng-container>
-                        <ng-container matColumnDef="eliminar" >
+                        <ng-container matColumnDef="eliminar">
                             <th mat-header-cell *matHeaderCellDef
                                 style="background-color: rgb(25, 43, 83); color: white;"> Eliminar</th>
                             <td mat-cell *matCellDef="let i = index">
-                                <button style="margin-left: 7px;" mat-mini-fab
-                                    color="warn" aria-label="Example icon button with a delete icon"
-                                    (click)="deleteAnalisis(i)">
+                                <button style="margin-left: 7px;" mat-mini-fab color="warn"
+                                    aria-label="Example icon button with a delete icon" (click)="deleteAnalisis(i)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>
@@ -117,7 +139,8 @@
                     </table>
                     <div style="display:flex; justify-content: end; margin:10px;">
                         <button mat-raised-button color="primary" (click)="saveOrder()"
-                            style="background-color: rgb(33, 56, 107); color: white; margin-right: 5px;" [disabled]="!this.dataSource.data">
+                            style="background-color: rgb(33, 56, 107); color: white; margin-right: 5px;"
+                            [disabled]="!this.dataSource.data">
                             <mat-icon>add_box</mat-icon>
                             Guardar Orden
                         </button>
@@ -127,7 +150,8 @@
             </div>
 
             <div style="display: flex;justify-content: end; margin: 10px;">
-                <button mat-raised-button color="primary" (click)="sendOrders()" [disabled]="this.ordersToSend.length === 0"
+                <button mat-raised-button color="primary" (click)="sendOrders()"
+                    [disabled]="this.ordersToSend.length === 0"
                     style="background-color: rgb(33, 56, 107); justify-content: end;">
                     <mat-icon>check</mat-icon>
                     Enviar Ordenes

@@ -1,24 +1,48 @@
-<div class="input">
+<div *ngIf="isUli">
+  <div class="input">
 
-  <form [formGroup]="dateForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Elegir una fecha</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="fecha">
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </form>
-  <button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;"
-    (click)="getFilteredData()">Traer datos de la fecha</button>
-  <button mat-raised-button color="primary" (click)="openDialog()">Descargar pdf</button>
-</div>
+    <form [formGroup]="dateForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Elegir una fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-<div *ngIf="dataSourceResumen.data.length === 0" style="display: flex; justify-content: center;  margin-top: 10px;">
-  <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
-</div>
+      <mat-form-field style="margin-left: 5px;">
+        <mat-label>Obra Social</mat-label>
+        <mat-select formControlName="obraSocial">
+          <mat-option value="Subsidio de salud">Subsidio de salud</mat-option>
+          <mat-option value="OSPIA">OSPIA</mat-option>
+          <mat-option value="Ricardo C. Mora">Ricardo C. Mora</mat-option>
+          <mat-option value="Soremer">Soremer</mat-option>
+          <mat-option value="OPSA">OPSA</mat-option>
+          <mat-option value="Red de seguro medico">Red de seguro medico</mat-option>
+          <mat-option value="Centro Medico Laprida">Centro Medico Laprida</mat-option>
+          <mat-option value=" OSPRERA"> OSPRERA</mat-option>
+          <mat-option value="OSSACRA">OSSACRA</mat-option>
+          <mat-option value="Galeno Argentino">Galeno Argentino</mat-option>
+          <mat-option value=" Prevencion ART"> Prevencion ART</mat-option>
+          <mat-option value="Asociar ART">Asociar ART</mat-option>
+          <mat-option value=" Integral ART"> Integral ART</mat-option>
+          <mat-option value=" Popular ART"> Popular ART</mat-option>
+          <mat-option value=" ADMED"> ADMED</mat-option>
+          <mat-option value=" OSPLAT"> OSPLAT</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;"
+      (click)="getFilteredData()">Traer datos de la fecha</button>
+    <button mat-raised-button color="primary" (click)="openDialog()">Descargar pdf</button>
+  </div>
 
-<div *ngIf="dataSourceResumen.data.length > 0" style="margin-top: 10px;">
+  <div *ngIf="dataSourceResumen.data.length === 0 && isUli"
+    style="display: flex; justify-content: center;  margin-top: 10px;">
+    <h1 class="mat-headline-5" style="color: rgb(167, 166, 166);">No hay níngun dato en la fecha seleccionada</h1>
+  </div>
+
+  <div *ngIf="dataSourceResumen.data.length > 0 && isUli" style="margin-top: 10px;">
     <table mat-table [dataSource]="dataSourceResumen" class="mat-elevation-z3">
 
       <ng-container matColumnDef="nameAfiliado">
@@ -54,30 +78,179 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
+  </div>
+
+
+  <div style="display: none;">
+    <div id="table">
+      <div>
+        <h4 style="text-align: center;  border: 1px solid #353535; margin: 0px;">
+          LABORATORIO RADA FACTURACION SUBSIDIO {{mesData}}
+        </h4>
+        <table style="text-align: left;border-collapse: collapse !important;">
+          <tr>
+            <th class="chikeTh">Pacientes</th>
+            <th class="chikeTh">Cantidad de órdenes</th>
+            <th class="chikeTh">Monto</th>
+          </tr>
+          <tr *ngFor="let data of dataSourceResumen.data">
+            <td class="chikeTd">{{data.nameAfiliado}}</td>
+            <td class="chikeTd">{{data.cantOrdenes}}</td>
+            <td class="chikeTd">{{data.monto}}</td>
+          </tr>
+          <tr>
+            <td class="chikeTd">TOTAL</td>
+            <td class="chikeTd">{{totalOrdenesPdf}}</td>
+            <td class="chikeTd">{{totalCost}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div *ngIf="isMama">
+  <div class="input">
 
-<div style="display: none;">
-  <div id="table">
-    <div>
-      <h4 style="text-align: center;  border: 1px solid #353535; margin: 0px;">
-        LABORATORIO RADA FACTURACION SUBSIDIO {{mesData}}
-      </h4>
-      <table style="text-align: left;border-collapse: collapse !important;">
+    <form [formGroup]="filterForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Elegir una fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 5px;">
+        <mat-label>Obra Social</mat-label>
+        <mat-select formControlName="obraSocial">
+          <mat-option value="Subsidio de salud">Subsidio de salud</mat-option>
+          <mat-option value="OSPIA">OSPIA</mat-option>
+          <mat-option value="Ricardo C. Mora">Ricardo C. Mora</mat-option>
+          <mat-option value="Soremer">Soremer</mat-option>
+          <mat-option value="OPSA">OPSA</mat-option>
+          <mat-option value="Red de seguro medico">Red de seguro medico</mat-option>
+          <mat-option value="Centro Medico Laprida">Centro Medico Laprida</mat-option>
+          <mat-option value=" OSPRERA"> OSPRERA</mat-option>
+          <mat-option value="OSSACRA">OSSACRA</mat-option>
+          <mat-option value="Galeno Argentino">Galeno Argentino</mat-option>
+          <mat-option value=" Prevencion ART"> Prevencion ART</mat-option>
+          <mat-option value="Asociar ART">Asociar ART</mat-option>
+          <mat-option value=" Integral ART"> Integral ART</mat-option>
+          <mat-option value=" Popular ART"> Popular ART</mat-option>
+          <mat-option value=" ADMED"> ADMED</mat-option>
+          <mat-option value=" OSPLAT"> OSPLAT</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </form>
+    <button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;"
+      (click)="getFilteredData()">Traer datos de la fecha</button>
+    <button mat-raised-button color="primary" (click)="openDialogMama()">Descargar pdf</button>
+  </div>
+  <div>
+
+
+
+    <div *ngIf="this.filteredData" style="text-align: center;">
+      <table style="border-collapse: collapse !important;">
         <tr>
-          <th class="chikeTh">Pacientes</th>
-          <th class="chikeTh">Cantidad de órdenes</th>
-          <th class="chikeTh">Monto</th>
+          <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
+          <th class="chikeTh">N° de afiliado beneficiario</th>
+          <th class="chikeTh">NUMERO DE ORDEN</th>
+          <th class="chikeTh">CODIGO</th>
+          <th class="chikeTh">ANALISIS REALIZADO</th>
+          <th class="chikeTh">IMPORTE</th>
         </tr>
-        <tr *ngFor="let data of dataSourceResumen.data">
-          <td class="chikeTd">{{data.nameAfiliado}}</td>
-          <td class="chikeTd">{{data.cantOrdenes}}</td>
-          <td class="chikeTd">{{data.monto}}</td>
-        </tr>
+
+        <ng-container *ngFor="let data of dataArray; let i = index">
+          <ng-container *ngFor="let ordenes of data.ordenes">
+            <tr>
+              <td class="chikeTd">{{data.nameAfiliado}}</td>
+              <td class="chikeTd">{{data.numAfiliado}}</td>
+              <td class="chikeTd">{{data.numOrden}}</td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+            </tr>
+            <tr *ngFor="let orden of ordenes.orden">
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd">{{orden.codigo}}</td>
+              <td class="chikeTd">{{orden.analisis}}</td>
+              <td class="chikeTd">{{orden.importe}}</td>
+            </tr>
+
+          </ng-container>
+        </ng-container>
         <tr>
-          <td class="chikeTd">TOTAL</td>
-          <td class="chikeTd">{{totalOrdenesPdf}}</td>
-          <td class="chikeTd">{{totalCost}}</td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
+          <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+
+
+  <div style="display: none;">
+    <div *ngIf="this.filteredData" style="text-align: center;" id="tableMama">
+      <div style="display: flex; justify-content: space-around; border: 2px solid black;" id="test">
+        <div style="flex-direction: column;">
+          <h2>LABORATORIO RADA SH.</h2>
+          <h4>FACTURACION {{mesData | uppercase}}.</h4>
+          <h3>{{selectedObraSocial}}</h3>
+        </div>
+        <div style="flex-direction: column;">
+          <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }} </h4>
+          <h4>SANATORIO DEL SUR</h4>
+          <h4>laboratoriorada@gmail.com</h4>
+        </div>
+      </div>
+
+
+      <table style="border-collapse: collapse !important;">
+        <tr>
+          <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
+          <th class="chikeTh">N° de afiliado beneficiario</th>
+          <th class="chikeTh">N° de orden</th>
+          <th class="chikeTh">CODIGO</th>
+          <th class="chikeTh">ANALISIS REALIZADO</th>
+          <th class="chikeTh ">IMPORTE</th>
+        </tr>
+        <ng-container *ngFor="let data of dataArray; let i = index">
+          <ng-container *ngFor="let ordenes of data.ordenes">
+            <tr>
+              <td class="chikeTd">{{data.nameAfiliado}}</td>
+              <td class="chikeTd">{{data.numAfiliado}}</td>
+              <td class="chikeTd">{{data.numOrden}}</td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+            </tr>
+            <tr *ngFor="let orden of ordenes.orden">
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd"></td>
+              <td class="chikeTd">{{orden.codigo}}</td>
+              <td class="chikeTd">{{orden.analisis}}</td>
+              <td class="chikeTd">{{orden.importe}}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <tr>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd"></td>
+          <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
+          <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
         </tr>
       </table>
     </div>

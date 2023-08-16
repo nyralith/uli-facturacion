@@ -25,7 +25,9 @@ export class FacturasComponent {
       } else return
     }
   }
-
+  
+  isUli: any
+  isMama: any
   editOrder: any;
   showCreateOrder: boolean = false;
   displayedColumns: string[] = ['codigo', 'analisis', 'importe', 'eliminar'];
@@ -48,11 +50,14 @@ export class FacturasComponent {
     fechaFactura: new FormControl('', Validators.required),
     nbu: new FormControl('', Validators.required),
     numOrden: new FormControl(),
+    obraSocial: new FormControl('', Validators.required),
   })
 
   analisisForm: FormGroup;
 
   constructor(private fb: FormBuilder, private service: Service, private _snackBar: MatSnackBar) {
+    this.isUli = this.service.isUli
+    this.isMama = this.service.isMama
     this.analisisForm = this.fb.group({
       codigo: ['', Validators.required],
       analisis: ['', Validators.required],
@@ -61,7 +66,6 @@ export class FacturasComponent {
   }
 
   openSnackBar(message, action) {
-    // let snackBarRef = this._snackBar.open(message, action, { duration: 2000 });
     let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
 
@@ -135,6 +139,7 @@ export class FacturasComponent {
     }
   }
   addNewAnalisis() {
+    console.log(this.afiliadoForm.controls)
     let codigo = (this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = parseFloat(this.analisisForm.controls['importe'].value);
@@ -197,7 +202,8 @@ export class FacturasComponent {
       fecha: this.filterDate(this.afiliadoForm.controls['fechaFactura'].value),
       ordenes: this.ordersToSend,
       importe: this.importeTotal,
-      numOrden: (this.afiliadoForm.controls['numOrden'].value) ? this.afiliadoForm.controls['numOrden'].value : '-'
+      numOrden: (this.afiliadoForm.controls['numOrden'].value) ? this.afiliadoForm.controls['numOrden'].value : '-',
+      obraSocial: this.afiliadoForm.controls['obraSocial'].value,
     };
     console.log(dataToSend, ' data enviada')
 
@@ -213,6 +219,8 @@ export class FacturasComponent {
     this.dataSource.data = [];
     this.importeTotal = 0;
     this.dataSource._updateChangeSubscription();
+    this.afiliadoForm.reset();
+    this.analisisForm.reset();
     this.openSnackBar("Se enviaron las órdenes", "X")
   }
 
