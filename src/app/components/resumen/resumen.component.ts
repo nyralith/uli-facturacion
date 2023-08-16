@@ -127,6 +127,18 @@ export class ResumenComponent {
         this.dataArray.push(object);
         this.openSnackBar("La operación se realizó con éxito", "X")
       });
+      let sortedData = this.dataArray.sort((a: any, b: any) => {
+        let fa = a.nameAfiliado.toLowerCase(),
+          fb = b.nameAfiliado.toLowerCase();
+        if (fa < fb) {
+          return -1;
+        }
+        if (fa > fb) {
+          return 1;
+        }
+        return 0;
+      })
+      this.dataArray = sortedData
     }
 
   }
