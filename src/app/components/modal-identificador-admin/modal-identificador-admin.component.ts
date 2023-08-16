@@ -16,7 +16,7 @@ export class ModalIdentificadorAdminComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<ModalIdentificadorAdminComponent>, private service: Service) { }
 
   ngOnInit() {
-    console.log("En este instante el componente ha cargado");
+
   }
 
   chooseUser(usuario: string) {
@@ -27,19 +27,6 @@ export class ModalIdentificadorAdminComponent implements OnInit {
       this.service.isUli = false;
       this.service.isMama = true;
     }
-
-    // switch (usuario) {
-    //   case 'uli':
-
-    //     console.log('uli')
-    //     break;
-    //   case 'mama':
-
-    //     console.log('mama')
-    //     break;
-    //   default:
-    //     break;
-    // }
     this.dialogRef.close();
   }
 }

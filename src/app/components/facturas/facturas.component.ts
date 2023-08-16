@@ -135,7 +135,6 @@ export class FacturasComponent {
     }
   }
   addNewAnalisis() {
-    console.log(this.afiliadoForm.controls)
     let codigo = (this.analisisForm.controls['codigo'].value);
     let analisis = this.analisisForm.controls['analisis'].value;
     let importe = parseFloat(this.analisisForm.controls['importe'].value);
@@ -201,8 +200,6 @@ export class FacturasComponent {
       numOrden: (this.afiliadoForm.controls['numOrden'].value) ? this.afiliadoForm.controls['numOrden'].value : '-',
       obraSocial: this.afiliadoForm.controls['obraSocial'].value,
     };
-    console.log(dataToSend, ' data enviada')
-
     if (this.afiliadoForm.controls['numOrden'].value.length) {
       await this.service.addOrders(randomid, dataToSend, 'facturasMami')
     } else {

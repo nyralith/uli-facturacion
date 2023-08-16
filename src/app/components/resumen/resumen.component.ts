@@ -213,7 +213,7 @@ export class ResumenComponent {
 
     html2pdf().from(element).set({
       margin: 0.5,
-      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.selectedObraSocial)}`,
+      filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.selectedObraSocial)}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       pagebreak: {

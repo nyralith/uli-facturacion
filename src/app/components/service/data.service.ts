@@ -40,14 +40,11 @@ export class Service {
     }
     async getFilteredData(filtro: any, obraSocial: any) {
         if (this.isUli) {
-            console.log('entrando uli')
             return new Promise<any>((resolve) => {
                 this.db.collection('facturas', ref => ref.where('afiliado.fecha', '==', filtro)).valueChanges().subscribe(resolve);
             })
         } else if (this.isMama) {
-            console.log('entrando mom')
             return new Promise<any>((resolve) => {
-                console.log(filtro, 'filtro')
                 this.db.collection('facturasMami', ref => ref.where('afiliado.fecha', '==', filtro).where('afiliado.obraSocial', '==', obraSocial)).valueChanges().subscribe(resolve);
             })
         }
