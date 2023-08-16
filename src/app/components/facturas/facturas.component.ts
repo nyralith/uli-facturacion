@@ -25,7 +25,7 @@ export class FacturasComponent {
       } else return
     }
   }
-  
+
   isUli: any
   isMama: any
   editOrder: any;
@@ -41,9 +41,6 @@ export class FacturasComponent {
   ordersToSend: any = [];
   importeTotal: number = 0;
 
-
-
-
   afiliadoForm = new FormGroup({
     numAfiliado: new FormControl('', Validators.required),
     nombreAfiliado: new FormControl('', Validators.required),
@@ -52,7 +49,6 @@ export class FacturasComponent {
     numOrden: new FormControl(),
     obraSocial: new FormControl('', Validators.required),
   })
-
   analisisForm: FormGroup;
 
   constructor(private fb: FormBuilder, private service: Service, private _snackBar: MatSnackBar) {
@@ -207,7 +203,7 @@ export class FacturasComponent {
     };
     console.log(dataToSend, ' data enviada')
 
-    if (this.afiliadoForm.controls['numOrden'].value.length !== 0) {
+    if (this.afiliadoForm.controls['numOrden'].value.length) {
       await this.service.addOrders(randomid, dataToSend, 'facturasMami')
     } else {
       await this.service.addOrders(randomid, dataToSend, 'facturas')
@@ -218,8 +214,12 @@ export class FacturasComponent {
     this.ordersToSend = [];
     this.dataSource.data = [];
     this.importeTotal = 0;
+
+
+    this.afiliadoForm.controls['numAfiliado'].patchValue('');
+    this.afiliadoForm.controls['nombreAfiliado'].patchValue('');
+    this.afiliadoForm.controls['numOrden'].patchValue('');
     this.dataSource._updateChangeSubscription();
-    this.afiliadoForm.reset();
     this.analisisForm.reset();
     this.openSnackBar("Se enviaron las órdenes", "X")
   }

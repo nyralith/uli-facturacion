@@ -21,11 +21,15 @@ table {
 
 }
 
-.chikeTd, .chikeTh {
+
+.chikeTd,
+.chikeTh {
   border: 1px solid #353535;
   text-align: left;
   // padding: 5px;  
   line-height: 15px;
 }
 
-
+.chikeTh {
+  text-align: center;
+}

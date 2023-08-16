@@ -47,6 +47,7 @@ export class ResumenComponent {
   openSnackBar(message, action) {
     let snackBarRef = this._snackBar.open(message, action, { duration: 5000 });
   }
+
   displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
   dataSourceResumen = new MatTableDataSource<any>
   acciones: any;
@@ -72,10 +73,6 @@ export class ResumenComponent {
     })
     return result;
   }
-
-
-
-
   async getFilteredData() {
     this.diaData = this.filterForm.controls['fechaFactura'].value;
     this.filteredData = []
