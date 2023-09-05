@@ -22,6 +22,7 @@ export class ResumenFacturacionPacienteComponent {
   displayedColumns: string[] = ['numAfiliado', 'nameAfiliado', 'codigo', 'analisis', 'importe'];
   acciones: any;
   mesData: any;
+  sanatorioData: any;
   diaData: any;
   dataArray: any = [];
   totalCost: number = 0;
@@ -56,15 +57,16 @@ export class ResumenFacturacionPacienteComponent {
 
   openDialog() {
     const dialogRef = this.dialog.open(ModalMesResumenComponent, {
-      data: { data: this.mesData },
+      data: { data: this.mesData, sanatorio: this.sanatorioData},
       disableClose: false,
-      width: '25em',
+      width: '35em',
       maxHeight: '100vh',
       panelClass: 'no-margin',
       closeOnNavigation: false
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.mesData = result;
+      this.mesData = result.data;
+      this.sanatorioData = result.sanatorio;
       this.downloadPdf()
       this.openSnackBar("La descarga se realizó con éxito", "X")
     });

@@ -8,7 +8,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class ModalMesResumenComponent {
 
-  data: any = '';
+data: any = {
+  data: '',
+  sanatorio: '',
+}
 
   constructor(public dialogRef: MatDialogRef<ModalMesResumenComponent>) {
 

@@ -33,6 +33,7 @@ export class ResumenComponent {
   filteredData: any;
   totalCost: number = 0;
   mesData: string = '';
+  sanatorioData: string = '';
   totalOrdenesPdf: number = 0;
   dataArray: any = [];
   diaData: any;
@@ -148,15 +149,16 @@ export class ResumenComponent {
 
   openDialog() {
     const dialogRef = this.dialog.open(ModalMesResumenComponent, {
-      data: { data: this.mesData },
+      data: { data: this.mesData, sanatorio: this.sanatorioData },
       disableClose: false,
-      width: '25em',
+      width: '35em',
       maxHeight: '100vh',
       panelClass: 'no-margin',
       closeOnNavigation: false
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.mesData = result;
+      this.mesData = result.data;
+      this.sanatorioData = result.sanatorio;
       this.downloadPdf()
       this.dateForm.reset()
       this.openSnackBar("La descarga se realizó con éxito", "X")
@@ -191,7 +193,7 @@ export class ResumenComponent {
 
   openDialogMama() {
     const dialogRef = this.dialog.open(ModalMesResumenComponent, {
-      data: { data: this.mesData },
+      data: { data: this.mesData, sanatorio: this.sanatorioData  },
       disableClose: false,
       width: '25em',
       maxHeight: '100vh',
@@ -199,7 +201,8 @@ export class ResumenComponent {
       closeOnNavigation: false
     });
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.mesData = result;
+      this.mesData = result.data;
+      this.sanatorioData = result.sanatorio;
       this.selectedObraSocial = this.filterForm.controls['obraSocial'].value;
       this.downloadPdfMama()
       this.filterForm.reset()
