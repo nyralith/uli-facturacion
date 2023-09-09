@@ -200,7 +200,7 @@ export class FacturasComponent {
       numOrden: (this.afiliadoForm.controls['numOrden'].value) ? this.afiliadoForm.controls['numOrden'].value : '-',
       obraSocial: this.afiliadoForm.controls['obraSocial'].value,
     };
-    if (this.afiliadoForm.controls['numOrden'].value.length) {
+    if (this.isMama) {
       await this.service.addOrders(randomid, dataToSend, 'facturasMami')
     } else {
       await this.service.addOrders(randomid, dataToSend, 'facturas')
