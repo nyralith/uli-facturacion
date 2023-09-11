@@ -193,7 +193,7 @@ export class ResumenComponent {
 
   openDialogMama() {
     const dialogRef = this.dialog.open(ModalMesResumenComponent, {
-      data: { data: this.mesData, sanatorio: this.sanatorioData  },
+      data: { data: this.mesData, sanatorio: this.sanatorioData },
       disableClose: false,
       width: '25em',
       maxHeight: '100vh',
@@ -213,12 +213,11 @@ export class ResumenComponent {
 
   downloadPdfMama() {
     let element = document.getElementById('tableMama');
-
     html2pdf().from(element).set({
       margin: 0.5,
       filename: `resumen-${(this.mesData).replace(/\s/g, "-")}-${(this.selectedObraSocial)}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 1 },
       pagebreak: {
         mode: ['avoid-all', 'css', 'legacy']
       },
