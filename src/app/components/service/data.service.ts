@@ -70,4 +70,13 @@ export class Service {
     async addOrders(_newId: any, afiliado: any, collection: string) {
         await this.db.collection(collection).doc(_newId).set({ afiliado });
     }
+
+
+    async editDataResumen(filtro: any, nombreAfiliado: any) {
+
+    }
+
+    async deleteDataResumen() {
+
+    }
 }

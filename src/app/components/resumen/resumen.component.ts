@@ -51,7 +51,6 @@ export class ResumenComponent {
 
   displayedColumns: string[] = ['nameAfiliado', 'cantOrdenes', 'monto', 'acciones'];
   dataSourceResumen = new MatTableDataSource<any>
-  acciones: any;
 
 
   ngOnInit() {
@@ -83,6 +82,7 @@ export class ResumenComponent {
     if (this.isUli) {
       this.filteredData = await this.service.getFilteredData(this.filterDate(this.dateForm.controls['fecha'].value).toString(), (this.dateForm.controls['obraSocial'].value));
       this.filteredData.forEach(element => {
+        console.log(element)
         let objectToSend = {
           nameAfiliado: element.afiliado.nameAfiliado,
           cantOrdenes: element.afiliado.ordenes.length,
@@ -113,6 +113,7 @@ export class ResumenComponent {
     } else {
       this.filteredData = await this.service.getFilteredData((this.filterDate(this.filterForm.controls['fechaFactura'].value?.toString())), (this.filterForm.controls['obraSocial'].value));
       this.filteredData.forEach(element => {
+        console.log(element)
         let object = {
           numAfiliado: element.afiliado.numAfiliado,
           nameAfiliado: element.afiliado.nameAfiliado,
@@ -233,5 +234,14 @@ export class ResumenComponent {
       }
     }).save();
   }
+
+  editData(){
+    console.log('funcionando')
+  }
+
+  deleteData(){
+    console.log('eliminando')
+  }
+  
 }
 
