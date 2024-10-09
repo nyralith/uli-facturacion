@@ -86,7 +86,8 @@ export class ResumenComponent {
         let objectToSend = {
           nameAfiliado: element.afiliado.nameAfiliado,
           cantOrdenes: element.afiliado.ordenes.length,
-          monto: element.afiliado.importe
+          monto: element.afiliado.importe,
+          id: element.id
         }
         this.dataSourceResumen.data.push(objectToSend)
       });
@@ -113,7 +114,6 @@ export class ResumenComponent {
     } else {
       this.filteredData = await this.service.getFilteredData((this.filterDate(this.filterForm.controls['fechaFactura'].value?.toString())), (this.filterForm.controls['obraSocial'].value));
       this.filteredData.forEach(element => {
-        console.log(element)
         let object = {
           numAfiliado: element.afiliado.numAfiliado,
           nameAfiliado: element.afiliado.nameAfiliado,
@@ -239,8 +239,9 @@ export class ResumenComponent {
     console.log('funcionando')
   }
 
-  deleteData(){
-    console.log('eliminando')
+  deleteData(item){
+    console.log(item)
+    this.service.deleteDataResumen(item)
   }
   
 }
