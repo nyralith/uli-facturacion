@@ -40,7 +40,7 @@ interface ModalResult {
 
 interface PdfOptions {
   margin: number[];
-  filename: string;
+  filename?: string;
   image: {
     type: string;
     quality: number;
@@ -230,6 +230,22 @@ export class ResumenFacturacionPacienteComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       const options = this.getPdfOptions();
 
+      // Generar el nombre del archivo con fecha
+      const nombreAfiliado = this.filterForm.controls['nameAfiliado'].value || 'paciente';
+      const fechaValue = this.filterForm.controls['fechaFactura'].value;
+      
+      // Formatear la fecha para el nombre del archivo (YYYY-MM-DD)
+      const fechaFormateada = fechaValue ? formatDate(fechaValue, 'yyyy-MM-dd', 'en-US') : 'sin-fecha';
+      
+      // Limpiar el nombre del paciente
+      const nombreLimpio = nombreAfiliado
+        .replace(/\s+/g, '-')           // Reemplazar espacios con guiones
+        .replace(/[^a-zA-Z0-9\-áéíóúñÁÉÍÓÚÑ]/g, '') // Quitar caracteres especiales excepto guiones y tildes
+        .toLowerCase();
+      
+      // Combinar nombre y fecha
+      const cleanFileName = `${nombreLimpio}_${fechaFormateada}`;
+
       this.applyPdfStyles();
 
       const pdf = await html2pdf()
@@ -237,9 +253,11 @@ export class ResumenFacturacionPacienteComponent implements OnInit, OnDestroy {
         .set(options)
         .toPdf()
         .get('pdf');
+      
       this.addPageNumbers(pdf);
 
-      await pdf.save();
+      // Guardar con el nombre específico
+      await pdf.save(`${cleanFileName}.pdf`);
       this.showSuccess('PDF generado correctamente');
     } catch (error) {
       console.error('Error al generar PDF:', error);
@@ -251,13 +269,8 @@ export class ResumenFacturacionPacienteComponent implements OnInit, OnDestroy {
   }
 
   private getPdfOptions(): PdfOptions {
-    const nombreAfiliado =
-      this.filterForm.controls['nameAfiliado'].value || 'paciente';
-    const mes = this.mesData || 'mes';
-
     return {
       margin: [0.5, 0.3, 0.5, 0.3],
-      filename: `resumen-${mes.replace(/\s/g, '-')}-${nombreAfiliado}`,
       image: {
         type: 'jpeg',
         quality: 1.0,
