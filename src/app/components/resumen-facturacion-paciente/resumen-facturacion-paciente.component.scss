@@ -2,11 +2,41 @@ table {
     width: 100%;
 }
 
-.input {
-    margin-top: 25px !important;
+.input-container {
+    margin: 25px 0;
     display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.form-field {
+    min-width: 200px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.action-button {
+    min-width: 180px;
+}
+
+.table-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .background-header {
@@ -19,17 +49,163 @@ table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  
+    table-layout: fixed;
   }
+
+.pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: arial, sans-serif;
+    font-size: 12px;
+}
 
 .chikeTd,
 .chikeTh {
     border: 1px solid #353535;
     text-align: left;
-    // padding: 5px;
+    padding: 4px;
     line-height: 15px;
+    word-wrap: break-word;
+    vertical-align: top;
 }
 
-.important{
+.chikeTh {
+    font-weight: bold;
+    background-color: #f5f5f5;
+}
+
+/* Anchos específicos para cada columna */
+.col-nombre { width: 25%; }
+.col-numero { width: 15%; }
+.col-codigo { width: 15%; }
+.col-analisis { width: 30%; }
+.col-importe { width: 15%; }
+
+.pdf-header {
+    width: 100%;
+    border: 2px solid black;
+    display: table;
+    margin-bottom: 10px;
+}
+
+.pdf-header-left,
+.pdf-header-right {
+    display: table-cell;
+    vertical-align: top;
+    padding: 10px;
+    width: 50%;
+}
+
+.pdf-header h2,
+.pdf-header h3,
+.pdf-header h4 {
+    margin: 5px 0;
+}
+
+/* Estilos para evitar saltos de página problemáticos */
+.pdf-table tbody tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+}
+
+.pdf-table tbody .patient-group {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+.pdf-table thead {
+    display: table-header-group !important;
+}
+
+.pdf-table tbody {
+    display: table-row-group !important;
+}
+
+.pdf-table tfoot {
+    display: table-footer-group !important;
+}
+
+/* Evitar que las celdas se dividan */
+.chikeTd,
+.chikeTh {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+/* Estilos específicos para los grupos de filas */
+.patient-header {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+}
+
+.patient-group {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+.order-row {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+.patient-separator {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+.total-row {
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+/* Utilidades para control manual de saltos de página */
+.page-break-before {
+    page-break-before: always !important;
+    break-before: page !important;
+}
+
+.page-break-after {
+    page-break-after: always !important;
+    break-after: page !important;
+}
+
+.avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+.separator-cell {
+    height: 5px;
+    border: none;
+    padding: 0;
+}
+
+.important {
     font-weight: 800 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .form-field {
+        width: 100%;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .action-button {
+        width: 100%;
+    }
 }

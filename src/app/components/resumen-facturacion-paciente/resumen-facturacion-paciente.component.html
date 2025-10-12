@@ -1,11 +1,11 @@
-<div class="input">
-
-    <form [formGroup]="filterForm">
-        <mat-form-field class="example-full-width" style="margin-right: 10px;">
-            <mat-label>Nombre de afiliado benecifiario</mat-label>
+<div class="input-container">
+    <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field class="form-field">
+            <mat-label>Nombre de afiliado beneficiario</mat-label>
             <input matInput placeholder="Paul Vazo" formControlName="nameAfiliado">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        
+        <mat-form-field class="form-field" appearance="fill">
             <mat-label>Elegir una fecha</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="fechaFactura">
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -13,16 +13,32 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     </form>
-    <button mat-raised-button color="primary" style="margin-right: 10px; margin-left: 10px;"
-        (click)="getFilteredData()">Traer datos de la fecha</button>
-    <button mat-raised-button color="primary" (click)="openDialog()">Descargar pdf</button>
+    
+    <div class="button-group">
+        <button mat-raised-button 
+                color="primary" 
+                class="action-button"
+                [disabled]="isLoading"
+                (click)="getFilteredData()">
+            <span *ngIf="!isLoading">Traer datos de la fecha</span>
+            <span *ngIf="isLoading">Cargando...</span>
+        </button>
+        
+        <button mat-raised-button 
+                color="primary" 
+                class="action-button"
+                [disabled]="!filteredData.length || isLoading"
+                (click)="openDialog()">
+            Descargar PDF
+        </button>
+    </div>
 </div>
 <div>
 
 
 
-    <div *ngIf="this.filteredData" style="text-align: center;">
-        <table style="border-collapse: collapse !important;">
+    <div *ngIf="filteredData.length > 0" class="table-container">
+        <table class="data-table">
             <tr>
                 <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
                 <th class="chikeTh">N° de afiliado beneficiario</th>
@@ -47,15 +63,14 @@
                         <td class="chikeTd">{{orden.analisis}}</td>
                         <td class="chikeTd">{{orden.importe}}</td>
                     </tr>
-
                 </ng-container>
             </ng-container>
             <tr>
                 <td class="chikeTd"></td>
                 <td class="chikeTd"></td>
                 <td class="chikeTd"></td>
-                <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
-                <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
+                <td class="chikeTd important">TOTAL</td>
+                <td class="chikeTd important">{{totalCost}}</td>
             </tr>
         </table>
     </div>
@@ -67,55 +82,72 @@
 <div style="display: none;">
     <div *ngIf="this.filteredData" style="text-align: center;" id="table">
 
-
-        <div style="display: flex; justify-content: space-around; border: 2px solid black;" id="test">
-            <div style="flex-direction: column;">
+        <div class="pdf-header">
+            <div class="pdf-header-left">
                 <h2>LABORATORIO RADA SH.</h2>
                 <h4>FACTURACION {{mesData | uppercase}}.</h4>
                 <h3>SUBSIDIO DE SALUD</h3>
             </div>
-            <div style="flex-direction: column;">
-                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }} </h4>
-
+            <div class="pdf-header-right">
+                <h4>S.M DE TUCUMÁN {{diaData | date:'longDate': 'ES' }}</h4>
                 <h4>{{sanatorioData | uppercase}}</h4>
                 <h4>laboratoriorada@gmail.com</h4>
             </div>
         </div>
 
-
-        <table style="border-collapse: collapse !important;">
-            <tr>
-                <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
-                <th class="chikeTh">N° de afiliado beneficiario</th>
-                <th class="chikeTh">CODIGO</th>
-                <th class="chikeTh">ANALISIS REALIZADO</th>
-                <th class="chikeTh ">IMPORTE</th>
-            </tr>
-            <ng-container *ngFor="let data of dataArray; let i = index">
-                <ng-container *ngFor="let ordenes of data.ordenes">
-                    <tr>
-                        <td class="chikeTd">{{data.nameAfiliado}}</td>
-                        <td class="chikeTd">{{data.numAfiliado}}</td>
-                        <td class="chikeTd"></td>
-                        <td class="chikeTd"></td>
-                        <td class="chikeTd"></td>
-                    </tr>
-                    <tr *ngFor="let orden of ordenes.orden">
-                        <td class="chikeTd"></td>
-                        <td class="chikeTd"></td>
-                        <td class="chikeTd">{{orden.codigo}}</td>
-                        <td class="chikeTd">{{orden.analisis}}</td>
-                        <td class="chikeTd">{{orden.importe}}</td>
-                    </tr>
+        <table class="pdf-table">
+            <colgroup>
+                <col class="col-nombre">
+                <col class="col-numero">
+                <col class="col-codigo">
+                <col class="col-analisis">
+                <col class="col-importe">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="chikeTh">AFILIADOS-BENEFICIARIOS ATENDIDOS</th>
+                    <th class="chikeTh">N° de afiliado beneficiario</th>
+                    <th class="chikeTh">CODIGO</th>
+                    <th class="chikeTh">ANALISIS REALIZADO</th>
+                    <th class="chikeTh">IMPORTE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of dataArray; let i = index">
+                    <ng-container *ngFor="let ordenes of data.ordenes">
+                        <!-- Fila principal del paciente -->
+                        <tr class="patient-header">
+                            <td class="chikeTd">{{data.nameAfiliado}}</td>
+                            <td class="chikeTd">{{data.numAfiliado}}</td>
+                            <td class="chikeTd"></td>
+                            <td class="chikeTd"></td>
+                            <td class="chikeTd"></td>
+                        </tr>
+                        <!-- Filas de órdenes agrupadas -->
+                        <ng-container class="patient-group">
+                            <tr *ngFor="let orden of ordenes.orden" class="order-row">
+                                <td class="chikeTd"></td>
+                                <td class="chikeTd"></td>
+                                <td class="chikeTd">{{orden.codigo}}</td>
+                                <td class="chikeTd">{{orden.analisis}}</td>
+                                <td class="chikeTd">{{orden.importe}}</td>
+                            </tr>
+                        </ng-container>
+                        <!-- Espaciador entre pacientes -->
+                        <tr class="patient-separator">
+                            <td colspan="5" class="separator-cell"></td>
+                        </tr>
+                    </ng-container>
                 </ng-container>
-            </ng-container>
-            <tr>
-                <td class="chikeTd"></td>
-                <td class="chikeTd"></td>
-                <td class="chikeTd"></td>
-                <td class="chikeTd" style="font-weight: bold;">TOTAL</td>
-                <td class="chikeTd" style="font-weight: bold;">{{totalCost}}</td>
-            </tr>
+                <!-- Fila de total -->
+                <tr class="total-row">
+                    <td class="chikeTd"></td>
+                    <td class="chikeTd"></td>
+                    <td class="chikeTd"></td>
+                    <td class="chikeTd important">TOTAL</td>
+                    <td class="chikeTd important">{{totalCost}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

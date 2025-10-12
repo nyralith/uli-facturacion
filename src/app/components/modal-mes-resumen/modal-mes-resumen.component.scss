@@ -1,0 +1,72 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 350px;
+  padding: 0;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 0 0 0;
+  margin: 0;
+}
+
+h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-weight: 500;
+}
+
+// Contenedor del modal
+.modal-content {
+  padding: 30px;
+  margin: 0;
+}
+
+// Estilos para los form fields
+.form-container mat-form-field {
+  width: 100%;
+}
+
+// Estilos específicos para outline appearance
+::ng-deep .mat-form-field-outline {
+  color: #ddd;
+}
+
+::ng-deep .mat-form-field-outline-thick {
+  color: #3f51b5;
+}
+
+// Ajustes para eliminar espacios extra
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+}
+
+::ng-deep .mat-form-field-subscript-wrapper {
+  margin-top: 0.5em;
+  font-size: 0.75em;
+}
+
+// Botones del modal
+.dialog-actions button {
+  min-width: 100px;
+}
+
+// Responsive para pantallas pequeñas
+@media (max-width: 600px) {
+  .form-container {
+    min-width: 280px;
+  }
+  
+  .dialog-actions {
+    flex-direction: column-reverse;
+    
+    button {
+      width: 100%;
+      margin: 4px 0;
+    }
+  }
+}
